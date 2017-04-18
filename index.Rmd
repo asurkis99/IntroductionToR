@@ -9,507 +9,116 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, error=TRUE)
 ```
 
-This file will walk you through every step of today’s class.  Throughout the handout, you’ll see the example code displayed like this:
+This document will provide the commands needed to catch you up at the beginning of each section of the Introduction to R class. If at any point, you find that you are not getting the correct outputs, you can use these code chunks to get back on track with the class (and then sort out what went wrong later!).
+
+#### On track for section 2 Processing and Working with Data
+If you do not have a variable called master with 18589 observations and 24 variables in the global environment, run the following code:  
 ```{r}
-print(2 + 2)
+master <- read.csv(file = "master.csv")
 ```
 
-### 1 Getting Started
-In this class, we are using RStudio, which is an integrated development environment (IDE).  
-
-Use tab completion and up arrow to save typing!  
-* Type the first part of command or variable name, you can scroll through the options that appear and hit tab to fill in the option you want.  
-* Use up arrow to scroll back through commands. You can then re-run a previous command, or modify it and run the new command.  
-
-Command line versus menu option:  
-A number of functions can be executed either by typing in the Console or by using menu options. For example, the working directory is the folder R will look in for files and save things, and you can set this working directory one of three ways:  
-* typing the function setwd() in the command line  
-* choosing the “Set as Working Directory” option under the More button on the Navigation Pane  
-* selecting Session-> Set Working Directory from the top menu bar.  
-
+#### On track for section 2.1 Subsetting
+If you do not have the variables master (18589 observations, 24 variables) and batting (99846 observations, 22 variables) in the global environment, run the following code: 
 ```{r}
-## setwd("~/IntroductionToR-gh-pages")
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
 ```
 
-If you want to find out what your current working directory is, you can use getwd:
-
+#### On track for section 2.2-2.3	(Renaming Variables - Installing and Working with Packages)
+If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, run the following code:  
 ```{r}
-getwd()
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
 ```
 
-If you want to find out what files are in your current working directory is, you can use dir:
-
+#### On track for section 2.3	Installing and Working with Packages
+If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:  
 ```{r}
-dir()
-```
-
-Next we’ll read in our data. We’ll be using a CSV file, but R can read almost any type of file. Let’s check out the help text for this function first. 
-```{r}
-?read.csv
-```
-Note: There are many arguments but we only need to specify those for which the default value is not what we want.
-```{r}
-master <- read.csv(file = "master.csv", header = TRUE)
-```
-
-No output, but look in the Global Environment pane. We will work with the data you just read in, but first…
-
-#### 1.1 Troubleshooting and Understanding Errors
-When you first get started with R, expect to see lots of error messages! While you get used to the syntax and using R, it’s natural that you’ll make mistakes. Sometimes it’s hard to figure out what your mistake is, but here are some helpful hints to troubleshooting some common errors.
-
-```{r}
-summary(Master)
-```
-
-R has told me it can’t find what I asked it to look for; in other words, I’ve told R to use some object that doesn’t exist. If you see this error, check your spelling carefully and make sure you’ve used the correct capitalization - R is case sensitive!
-
-R relies on punctuation marks for meaning, so if you use punctuation incorrectly, you will get an error. Common errors include leaving out closing punctuation or including extra punctuation marks. RStudio is helpful in this regard because it will add closing punctuation when you type opening punctuation. For example, if I type an open parenthesis, Rstudio puts a close parenthesis after it.  Of course it’s still possible to make mistakes, so check your code carefully. Here is an example of a punctuation error that will cause a problem: 
-
-```{r}
-master <- read.csv([file = 'master.csv, header =  TRUE)
-```
-
-Because the closing quotation mark is missing, R is expecting something you to type in something else to “balance” the statement. The “+” indicates that R does not have a complete command that it can process. If you click your cursor into the console and hit the ESCAPE key, that will interrupt the faulty command and you should see the “>” prompt again in your console window. You can then try again. 
-
-```{r}
-master <- read.csv([file = 'master.csv' header =  TRUE)
-```
-Error: unexpected symbol in "master <- read.csv(file = "master.csv" header"
-
-This time, I accidentally left out the comma between my file argument and header argument, so R gives me an error message about an unexpected symbol. R isn’t smart enough to tell you what is missing or extra, but it will tell you roughly where you should be looking for the error - it stops trying to run any code when it finds the error, so I know that my mistake is somewhere around the header argument.
-
-```{r}
-master <- read.csv([file = 'master.csv', header =  TRUE)
-```
-
-Sometimes R will be able to tell you what punctuation it found that it didn’t like, as it does in this case. I have a random [, and R tells me that.
-
-```{r}
-master <- tread.csv([file = 'master.csv', header =  TRUE)
-```
-
-If you make a spelling mistake in a function, R will tell you that it couldn’t find that function. Check your spelling and try again. The same thing will happen if you make a spelling error in one of the arguments so that you are passing an argument that  does not exist.
-
-#### 1.2	Getting to Know Your Data
-Back to the data frame you read into your Global Environment. How can you get a sense of what master looks like?
-There are a several ways to explore the contents of the dataset. You could type in the name of the data frame, but unless your data frame is very small, that is probably not a good idea! The best way to start is by calling the str() function with the name of the data frame as the argument. This function shows the structure of the data.
-
-```{r}
-str(master)
-``` 
-
-You can also get some basic summary statistics about your data. 
-
-```{r}
-summary(master)
-```
-
-This displays different types of stats about each variable, depending on its type. For weight, summary returns the mean, median, and other summary stats. For birthState, summary returns a count of how many items are in each category. Let’s explore why this is by figuring out the class of these variables. A variable is referred to by using the date frame name, the $ and then the variable name.
-
-```{r}
-class(master$birthState)
-
-class(master$weight)
-```
-
-One other thing to note about the summary is that for some of the variables, summary returned the number of NAs – an important thing to note when we move to cleaning the data.
-
-The functions head() or tail() allow you to look at the first or last rows of a data frame. You can specify how many rows are displayed (default is 6 rows).
-
-```{r}
-head(master, n=5)
-```
- 
-Finally, the function names() returns a list of the variables or column names in our dataset – this is useful if you need to check the spelling or capitalization of variables, or to find out the column number that corresponds to a variable. You’ll see later that you can refer to a column by its number or name.
-
-```{r}
-names(master)
-``` 
-
-### 2   Processing and Working with Data
-
-In this section you’ll learn to use R to easily do some basic processing and cleaning of data in order to make it easier to work with. This “data wrangling” step is of huge importance to any sort of data analysis.
-
-One of the things you might want to do is to take two different datasets and combine them using some unique ID that both datasets share. R is very good at this! Let’s read in another dataset about our baseball players. Now we will have two different data frames to work with.
-
-```{r}
-batting <- read.csv(file='batting.csv', header=TRUE)
-```
-
-#### 2.1    Subsetting
-
-You will often want to use a subset of data, particularly with a large dataset. Before we merge the batting data with the master data, we’ll create some new data frames that contain just parts of our larger dataset. Let’s create a new data frame using just the data from 2014. There are a number of ways to do this. You could use the subset function to select observations that exactly meet a specific criterion, in this case, only those from the year 2014.
-
-```{r}
-batting2014 <- subset(batting,  yearID == "2014")
-```
-
-Year is an integer, so you can select a subset that meets some numeric criterion, such as all observations where year is greater than or equal to 2014. 
-
-```{r}
-batting2014 <- subset(batting,  yearID  >=  2014)
-```
-
-You can use Boolean operators, via the ampersand (for AND) and the pipe sign (for OR) to create complex conditions.
-
-```{r}
-frequent_batting2014 <- subset(batting, yearID >= 2014 & AB > 20)
-```
-
-You can nest conditions with parentheses to get really specific, for example, selecting players with more than 50 runs OR more than 25 homers in 2014.
-
-```{r}
-best_batting2014 <- subset(batting, yearID >= 2014 & (R > 50 |  HR >= 25))
-```
-
-Another way to subset data is to refer to specific rows and/or columns using square brackets after the data frame name, with the first number in the brackets interpreted by R as a row index, and the second as a column index. For example, you can create a new data frame with the first 5 observations in the batting data frame. When you put nothing after the comma, it will take all the columns for those first 5 observations.
-
-```{r}
-first5 <- batting[1:5, ]
-```
-
-Conversely, if you put nothing before the comma, you will have all of the rows, but in this case, just the first two columns of all of those observations.
-
-```{r}
-player.year <- batting[, 1:2]
-```
-
-It is also possible to use this syntax to remove data. For example, this creates a new dataset with everything except the 3rd column.
-
-```{r}
-no_3rd <- batting[, -3]
-```
-
-You can access a range of rows or columns, referred to as a slice, by using the colon.
-
-```{r}
-new_batting <- batting[1:100, -3]
-```
-
-The function c() concatenates numbers, so allows you to access a non-consecutive set of rows or columns, such as here, where I’m taking rows 1-100 and 400-425 of columns 1, 2, and 5.
-
-```{r}
-new_batting <- batting[c(1:100, 400:425), c(1, 2, 5)]
-```
-
-R can generate a random sample using the sample() function. This example returns 50 random observations from the batting data frame.
-
-```{r}
-random.batting <- batting[sample(1:nrow(batting), 50), ]
-```
-
-#### 2.2	Renaming Variables
-
-One of the things you may have noticed about our dataset is that the variable names aren’t very descriptive. There are 22 variables, but most of them are just a letter, which isn’t helpful without a codebook in front of us. As is so often the case with R, there are many ways to rename these variables. One way is to tell R to take look through the variable names for the one that is currently called R and rename it as runs.
-
-```{r}
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
 names(batting2014)[names(batting2014) == "R"]  <- "runs"
 ```
 
-Another method is to use the number of the column to tell R which variable to rename.
-
+#### On track for section 2.4	Merging Datasets
+If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:  
 ```{r}
-names(batting2014)[6] <- "games"
-```
-
-Next, we will learn about packages -- in particular a package called plyr -- which makes variable renaming even easier.
- 
-#### 2.3	Installing and Working with Packages
-
-R has quite a bit of built-in functionality, but there are also many, many free packages that add functions that are not part of the base R functionality. You can download and install these packages, then tell R which packages you want to use, in order to pull in functions that make your work easier. By selecting “install” under the Packages tab, RStudio will figure out the right code to run to install the package you choose. Using the install button, install the package plyr now. Once you’ve installed a package, you still need to tell RStudio when you want to use it. You can do that by checking the box next to its name in the Packages tab list, or you can do so by loading it using the library() function.
-
-```{r}
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
+names(batting2014)[names(batting2014) == "R"]  <- "runs"
 library(plyr)
-```
-
-Now we can use the handy rename function that’s part of plyr. Simply enter the names of all the variables you’d like to rename. Notice the variable ”X2B.” Variables can’t start with numbers, so when R read our CSV file in, it changed the variable name ”2B” to ”X2B”
-
-```{r}
 batting2014  <-  rename(batting2014,  c(AB="at_bats", H="hits", X2B="doubles"))
 ```
 
-Let’s check out our new names for our batting2014 dataset
+#### On track for section 2.5	Recoding Data, Creating New Variables, and Changing Data Types
 
 ```{r}
-names(batting2014)
-```
-
-#### 2.4	Merging Datasets
-
-Now that you have renamed the batting dataset, you can merge the master dataset with player info, with the batting dataset using the merge() function. The merge() function can be used with any two datasets as long as they share at least one common column name. In this case, both the master and batting datasets have a variable called playerID, which is a unique identifier for each player. To create a new data frame by merging the two data frames:
-
-```{r}
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
+names(batting2014)[names(batting2014) == "R"]  <- "runs"
+library(plyr)
+batting2014  <-  rename(batting2014,  c(AB="at_bats", H="hits", X2B="doubles"))
 full_data  <-  merge(batting2014, master, by = "playerID")
 ```
 
-Notice that our new data frame has 1435 observations. Each player has been matched with his master data, but not every player in the master list of 18,000+ is in the 2014 batting dataset. You can also choose to include all players in the new data frame, even if their batting data is not in the batting dataset. In the merge function, our first data frame is considered X, and the second Y. So if we use all.y = TRUE, R will add every observation from the master list, even if there is no corresponding match in batting.
+#### On track for section 2.6	Dealing with NAs
 
 ```{r}
-full_data_all  <-  merge(batting2014, master, by = "playerID", all.y = TRUE)
-```
-
-#### 2.5	Recoding Data, Creating New Variables, and Changing Data Types
-
-Sometimes it’s desirable to recode data (for example, changing all No responses to 0 and Yes responses to 1), create new variables based on existing data, or adjust the class of data (for example, changing a factor to an ordered factor). Let’s recode this data to use the full state name instead of an abbreviation in the birth state column. We will just do this for a couple of states to get the idea using the revalue function from the plyr package.
-
-```{r}
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
+names(batting2014)[names(batting2014) == "R"]  <- "runs"
+library(plyr)
+batting2014  <-  rename(batting2014,  c(AB="at_bats", H="hits", X2B="doubles"))
+full_data  <-  merge(batting2014, master, by = "playerID")
 full_data$birthState  <-  revalue(full_data$birthState,  c(TX="Texas", CA="California"))
-```
-
-Looking at the summary of the birth state variable, we see that Texas and California are now spelled out. (Note the maxsum argument here to specify that only the first n observations should be displayed, rather than the entire summary for this variable.)
-
-```{r}
-summary(full_data$birthState, maxsum = 5)
-```
-It can be useful to create a new variable based on some existing data. For example, we could make a new ordinal variable called rel_height based on the height variable, categorizing our players as short, average, or tall. We’ll do this one category at a time.
-
-```{r}
 full_data$rel_height[full_data$height  <  70] <- "short"
 full_data$rel_height[full_data$height >= 70 & full_data$height <= 75] <- "average"
 full_data$rel_height[full_data$height > 75] <- "tall"
-```
-
-We have our new variable now, but we have a problem:
-
-```{r}
-class(full_data$rel_height)
-```
-
-The variable rel_height was created as a character variable, because that is how R interpreted it when we assigned a string to the variable. But rel_height is actually an ordinal variable, so we want it to be a factor variable. And the different values of this variable are not independent categories -- they have meaning relative to each other, so what really makes sense for this variable is that it be an ordered factor. First, to convert to a factor variable: 
-
-```{r}
 full_data$rel_height <- as.factor(full_data$rel_height)
-```
-
-At this point, it lacks ordering, so there is no understood relationship - the three categories are just presumed to be three separate groups.  One way we can tell that R doesn’t know the order of our factor levels yet is by having it show us a table of values. R arranges the table in alphabetical order.
-
-```{r}
-table(full_data$rel_height)
-```
-
-Now that this variable is a factor, we can add ordering to it to introduce the relationship between the different groups. This is important for certain types of analyses (e.g., analyzing Likert scale data) and also ensures that the data points are arranged correctly for any visualizations you might create.
-
-```{r}
 full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
-```
-
-Now you can see the data are in the correct order.
-
-```{r}
-table(full_data$rel_height)
-```
-
-You can also create new variables that transform existing variables through some sort of calculation. For example, the weight variable is in pounds, but you can change that to kilograms by multiplying the weight column by the conversion factor and assigning the output to a new column.
-
-```{r}
 full_data$wt_kg <- full_data$weight * 0.453592
 ```
 
-#### 2.6	Dealing with NAs
-
-Often a dataset will have missing values, typically represented by NAs. But applying functions to variables with NAs can be problematic, for example applying the mean function to the weight variable in the master dataset.
+#### On track for sections 2.6-4.2 Dealing with NAs through Transforming and Summarizing Data
 
 ```{r}
-mean(master$weight)
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
+names(batting2014)[names(batting2014) == "R"]  <- "runs"
+library(plyr)
+batting2014  <-  rename(batting2014,  c(AB="at_bats", H="hits", X2B="doubles"))
+full_data  <-  merge(batting2014, master, by = "playerID")
+full_data$birthState  <-  revalue(full_data$birthState,  c(TX="Texas", CA="California"))
+full_data$rel_height[full_data$height  <  70] <- "short"
+full_data$rel_height[full_data$height >= 70 & full_data$height <= 75] <- "average"
+full_data$rel_height[full_data$height > 75] <- "tall"
+full_data$rel_height <- as.factor(full_data$rel_height)
+full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
+full_data$wt_kg <- full_data$weight * 0.453592
 ```
 
-R returns a mean of NA because there are NA values in this variable, but you can tell R to ignore NAs and return the mean of the existing data.
+#### On track for section 4.3	Reshaping Data from Long to Wide
 
 ```{r}
-mean(master$weight,  na.rm  =  TRUE)
-```
-
-Sometimes it’s desirable to create a subset of a dataset that only contains those observations for which all there is a complete set of data, that is, no NAs. The na.omit() function will remove all observations that are not complete. So any row that has even a single NA will be deleted.
-
-```{r}
-no_na <- na.omit(batting)
-```
-
-A more conservative approach is to remove only those observations that have NAs in key variables. For example, removing only those players for whom there is an NA in the runs variable. This can be done using !is.na. The exclamation mark stands for NOT - in other words, everything that is NOT NA.
-
-```{r}
-has_runs <- full_data[!is.na(full_data$runs), ]
-```
-
-NOTE: You can specify an NA value when reading in a data file – say a csv file uses 999 to indicate missing data, you can ask R to replace those with NAs.
-
-```{r}
-new_data <- read.csv(file ="master.csv",na.strings ="999")
-```
-
-#### 2.7	Working with Tables
-
-So far we’ve primarily dealt with our data in the form of a data frame. Another useful class of data is tables. Some statistical tests require that data be in a table. Tables are also helpful for getting a feel for how the data is distributed. Suppose you want to create a table of height for both left and right-handed players. First make a minor modification to the data removing empty levels from the variable that specified handedness -- ”throws”.
-
-```{r}
-full_data$throws  <-  factor(full_data$throws)
-```
-
-To create the table, simply specify the variables you want included.
-
-```{r}
-handedtbl  <-  table(full_data$throws,  full_data$rel_height)
-handedtbl
-```
-
-The order in which pass variables to the table function determines which are columns and which are rows. Reversing the order transposes the table.
-
-```{r}
-handedtbl <- table(full_data$rel_height, full_data$throws)
-handedtbl
-```
-
-You can also create a table that provides the proportions rather than the raw values. The margin argument specifies whether the proportions are calculated across rows (margin = 1) or columns (margin = 2).
-
-```{r}
-prop.handed <- prop.table(handedtbl, margin = 1)
-prop.handed
-
-prop.handed <- prop.table(handedtbl, margin = 2)
-prop.handed
-```
-
-### 3   Iteration and the Apply Functions
-A benefit of R is that it has many built-in functions that can efficiently handle iterative processing. You don’t have to manually change or analyze data column by column or row by row - one set of code can be iterated over an entire set of data. If you’re familiar with other programming languages, you may be used to iterating using a “for loop”. You can write for loops in R, but this is generally less efficient than other methods of iteration shown here.
-
-#### 3.1	Apply
-There are several different “apply” functions that take instructions and apply them over a set of data. The most basic is apply(), which will apply a function over set of columns or rows. You can specify whether you want the function applied over columns or rows (or both). For example, suppose you want to calculate the mean for each column in a data frame. The apply function takes 3 arguments:  
-*	the data frame of interest  
-*	the margin argument (1 for row, 2 for column, c(1,2) for both)  
-*	a function (in this case, mean)  
-
-```{r, error=FALSE, warning=FALSE}
-apply(full_data,  2,  mean)
-```
-
-The problem with this code was that every variable had NA values, so the means were all NAs. We need to omit the NA values. We also only want means of the numeric variables (columns 6-22). I don’t have to create a new data frame to do this - I can just nest my functions and put it all in one line of code:
-
-```{r}
-apply(na.omit(full_data[,  6:22]),  2,  mean)
-```  
-
-#### 3.2	By
-
-The by() function is another iterative function that is used when you want to break data up by groups. Suppose you want to calculate those same means, but you want to break it up by the player’s league (American or National). The by function takes 3 arguments:  
-*	the data frame of interest  
-*	the variable to group on (in this case, lgID)  
-*	a function (NOTE: margins is no longer available as an argument so if you want the means of columns you can use the function colMeans)  
-
-```{r}
-by(na.omit(full_data[,   6:22]),   full_data$lgID,   colMeans)
-```
-
-#### 3.3	The Other Apply Functions
-
-There are a many other apply-like functions that can be used depending on what type of data you’re putting into the function and what kind of data you hope to get out. For example, lapply returns a list, thus the ”l” in the name, while mapply lets you apply to the function to multiple arguments, thus the ”m.” We won’t get into these here, but be aware that there are many options available depending on the type of data you’re working with.
-
-### 4	Restructuring and Reorganizing Data
-
-We’ve dealt with a variety of functions that allow us to modify and process data. Next, we’ll deal with some ways to restructure and reorganize data.
-
-####4.1	Sorting Data
-
-Our data frame is sorted alphabetically by player ID, but we can sort by any variable by using the order() function. For example, this code will sort the data frame by weight (Note, this code is not saving the re-sorted data frame to a new variable, it is just printing out the first 6 rows):
-
-```{r}
-head(full_data[order(full_data$weight), ])
-```
- 
-By default, the sort will be done ascending, but I can also switch to a descending sort by passing the decreasing argument to the function.
-
-```{r}
-head(full_data[order(full_data$weight, decreasing = TRUE),  ])
-```
-
-You can sort on multiple variables as well. For example, you can sort by birthYear, birthMonth, and birthday.  The order in which these variables are passed to the order is the order in which the data will be sorted.
-
-```{r}
-head(full_data[order(full_data$birthYear, full_data$birthMonth, full_data$birthDay), ])
-```
-
-#### 4.2	Transforming and Summarizing Data
-
-The by() function allowed you to apply a function to data by group to get summary data for each of the groups. The ddply() function in the plyr package can also be useful for doing this. Suppose you want to compile some team stats by finding all the players for each team, and adding up their home runs and runs. The ddply function needs a few arguments:  
-*	the data frame  
-*	the variable(s) on which you want to group (in this case the team and year, so you get stats by team for each year)  
-*	the function to apply   
-*	how to create and what to name the newly created variables  
-
-So in this case, the function is summarize, which means that a new condensed data frame will be created with just the data specified here. The new variables created will be sums and means of the runs and home runs for each team and year. Adding the na.rm=TRUE argument to the calls to sum and mean will avoid returning NAs if there are any missing data points. The function call is as follows:
-
-```{r}
+master <- read.csv(file = "master.csv")
+batting <- read.csv(file = "batting.csv")
+batting2014 <- subset(batting,  yearID >= 2014)
+names(batting2014)[names(batting2014) == "R"]  <- "runs"
+library(plyr)
+batting2014  <-  rename(batting2014,  c(AB="at_bats", H="hits", X2B="doubles"))
+full_data  <-  merge(batting2014, master, by = "playerID")
+full_data$birthState  <-  revalue(full_data$birthState,  c(TX="Texas", CA="California"))
+full_data$rel_height[full_data$height  <  70] <- "short"
+full_data$rel_height[full_data$height >= 70 & full_data$height <= 75] <- "average"
+full_data$rel_height[full_data$height > 75] <- "tall"
+full_data$rel_height <- as.factor(full_data$rel_height)
+full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
+full_data$wt_kg <- full_data$weight * 0.453592
 team_summary <- ddply(batting, c("teamID", "yearID"), summarize, total_homeruns  =  sum(HR,  na.rm  =  TRUE),  total_runs  =  sum(R, na.rm  =  TRUE),  mean_homeruns  =  mean(HR,  na.rm  =  TRUE), mean_runs = mean(R, na.rm = TRUE))
-head(team_summary)
 ```
-
-#### 4.3	Reshaping Data from Long to Wide
-
-There are many ways to organize your data and sometimes the analyses you are doing will require that the data to be organized in a certain way. This is often the case with observations at multiple time points, as is the case with our team summary date.  Looking at the first 8 rows of the team summary:
-
-```{r}
-head(team_summary,  n  =  8)
-```
-
-This format -- several rows for each of the teams, one for each year – is called a long format. This format is easy to read, but it does not conform to what are known as the “principles of tidy data” and therefore are not in the best format for analyzing the data in R.  In tidy data, each variable forms a column and each observation forms a row so for this data to be tidy, it needs to be converted from its current long format to a wide format. In a wide format, each observation will have one (and only one) row. While the long form of the summary has several rows for each team in our summary, after the conversion, each team will have only one row.
-
-In order to do this, you have to create some new columns that combine the year with the variables of interest. In other words, there will be a column for each year, for each of the four variables. This means there will be more columns than before, but fewer rows – wide, rather than long.
-There are a couple of methods to convert the data from long to wide.  One of these is the reshape function. This function takes a few arguments:  
-*	the dataframe (for the purposes of this demo, we can take the subset of summary data from 2010 forward)  
-*	the timevar - this variable creates the separate records for each individual observation. In this data frame, yearID is that time variable)  
-*	the idvar - this is the variable that contains the identifier for each unique subject -- in this case teams  
-*	direction - whether the convertion is from long to wide or from wide to long (reshape can do either)  
-
-```{r}
-wide <- reshape(subset(team_summary, yearID >= 2010), timevar = "yearID", idvar  =  "teamID",  direction  =  "wide")
-head(wide) 
-```
-
-If you want to change it back to a long format, you need a list of the wide format names that are to be converted to single variables in the long format.
-
-```{r}
-names(wide)
-```
-
-If you look at the list of names from the wide data frame, you can see that the variables to be converted are 2-21. You can assign that list of variables to a name to make it easier to call them in the reshape function.
-
-```{r}
-vars  <-  names(wide)[2:21]
-```
-
-To call the reshape function to convert this from a wide to a long format, you need to pass a few different arguments:  
-*	the data frame   
-*	varying - the names of the variables to be broken apart (now assigned to vars to make this easier)  
-*	the idvar - same as before  
-*	direction – this time from wide to long  
-
-A note - reshape will try to guess how to break up the varying variables. By default, it expects to see the format of varname.time, like mean runs.2010. If this is NOT how your variables are named, you can specify what the separator is by using the ”sep =” argument. For example, if you used an underscore between your variable name and time element, you’d pass the argument sep = ”   ”
-
-```{r}
-long  <-  reshape(wide,  varying  =  vars,  idvar  =  "teamID",  direction  =  "long")
-head(long)
-```
-
-### 5	Continuing Your R Journey
-
-This class has provided a very basic introduction to the syntax and basic functionality of R, but there is a lot more that R can do. Fortunately, there are lots of ways to get help as you try to troubleshoot or figure out how to do new things in R.
-
-#### 5.1	Google is your friend
-
-Getting a cryptic error message? Trying to figure out what function does what you are trying to do? Chances are very good that someone else has had your exact question and has gotten it answered! Google! And be as specific as possible! And look in your search results for the following sites:  
-* Stack Overflow (http://stackoverflow.com): site where people can ask questions and the community will answer. Sometimes people can get a bit mean if you ask questions that have been answered elsewhere, so definitely do some searching before you post a question.  
-*  CRAN - The Comprehensive R Archive Network (http://cran.r-project.org): basically the official site of R. Lots of documentation is hosted there, so you can usually find thorough descriptions of functions and packages  
-*  R Bloggers (http://www.r-bloggers.com): user-created tutorials on a variety of topics   
-*  UCLA’s Institute for Digital Research and Education (http://www.ats.ucla.edu/stat/r/): a fairly comprehensive set of tutorials with lots of examples  
-
-#### 5.2	Recommended Books
-
-These resources provide nice overview information to help you learn more about accomplishing general data tasks in R.  
-*	Lander, Jared P. R for Everyone  
-*	Matloff, Norman. The Art of R Programming: A Tour of Statistical Software Design  
-*	Teetor, Paul. The R Cookbook: Proven Recipes for Data Analysis, Statistics, and Graphics  
-*	Wickham, Hadley. Advanced R  
-  
-  
-
- 
 

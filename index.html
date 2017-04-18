@@ -123,676 +123,104 @@ $(document).ready(function () {
 </div>
 
 
-<p>This file will walk you through every step of today’s class. Throughout the handout, you’ll see the example code displayed like this:</p>
-<pre class="r"><code>print(2 + 2)</code></pre>
-<pre><code>## [1] 4</code></pre>
-<div id="getting-started" class="section level3">
-<h3>1 Getting Started</h3>
-<p>In this class, we are using RStudio, which is an integrated development environment (IDE).</p>
-<p>Use tab completion and up arrow to save typing!<br />
-* Type the first part of command or variable name, you can scroll through the options that appear and hit tab to fill in the option you want.<br />
-* Use up arrow to scroll back through commands. You can then re-run a previous command, or modify it and run the new command.</p>
-<p>Command line versus menu option:<br />
-A number of functions can be executed either by typing in the Console or by using menu options. For example, the working directory is the folder R will look in for files and save things, and you can set this working directory one of three ways:<br />
-* typing the function setwd() in the command line<br />
-* choosing the “Set as Working Directory” option under the More button on the Navigation Pane<br />
-* selecting Session-&gt; Set Working Directory from the top menu bar.</p>
-<pre class="r"><code>## setwd(&quot;~/IntroductionToR-gh-pages&quot;)</code></pre>
-<p>If you want to find out what your current working directory is, you can use getwd:</p>
-<pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/surkia01/Google Drive/Work/Data Management Projects/Data Day to Day/April2017/Classes/IntroductionToR/IntroductionToR&quot;</code></pre>
-<p>If you want to find out what files are in your current working directory is, you can use dir:</p>
-<pre class="r"><code>dir()</code></pre>
-<pre><code>## [1] &quot;batting.csv&quot;           &quot;Icon\r&quot;                &quot;index.Rmd&quot;            
-## [4] &quot;IntroductionToR.Rproj&quot; &quot;master.csv&quot;            &quot;README.md&quot;            
-## [7] &quot;Worksheet.html&quot;        &quot;Worksheet.Rmd&quot;</code></pre>
-<p>Next we’ll read in our data. We’ll be using a CSV file, but R can read almost any type of file. Let’s check out the help text for this function first.</p>
-<pre class="r"><code>?read.csv</code></pre>
-<p>Note: There are many arguments but we only need to specify those for which the default value is not what we want.</p>
-<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;, header = TRUE)</code></pre>
-<p>No output, but look in the Global Environment pane. We will work with the data you just read in, but first…</p>
-<div id="troubleshooting-and-understanding-errors" class="section level4">
-<h4>1.1 Troubleshooting and Understanding Errors</h4>
-<p>When you first get started with R, expect to see lots of error messages! While you get used to the syntax and using R, it’s natural that you’ll make mistakes. Sometimes it’s hard to figure out what your mistake is, but here are some helpful hints to troubleshooting some common errors.</p>
-<pre class="r"><code>summary(Master)</code></pre>
-<pre><code>## Error in summary(Master): object 'Master' not found</code></pre>
-<p>R has told me it can’t find what I asked it to look for; in other words, I’ve told R to use some object that doesn’t exist. If you see this error, check your spelling carefully and make sure you’ve used the correct capitalization - R is case sensitive!</p>
-<p>R relies on punctuation marks for meaning, so if you use punctuation incorrectly, you will get an error. Common errors include leaving out closing punctuation or including extra punctuation marks. RStudio is helpful in this regard because it will add closing punctuation when you type opening punctuation. For example, if I type an open parenthesis, Rstudio puts a close parenthesis after it. Of course it’s still possible to make mistakes, so check your code carefully. Here is an example of a punctuation error that will cause a problem:</p>
-<pre class="r"><code>master &lt;- read.csv([file = 'master.csv, header =  TRUE)</code></pre>
-<pre><code>## Error: &lt;text&gt;:1:20: unexpected '['
-## 1: master &lt;- read.csv([
-##                        ^</code></pre>
-<p>Because the closing quotation mark is missing, R is expecting something you to type in something else to “balance” the statement. The “+” indicates that R does not have a complete command that it can process. If you click your cursor into the console and hit the ESCAPE key, that will interrupt the faulty command and you should see the “&gt;” prompt again in your console window. You can then try again.</p>
-<pre class="r"><code>master &lt;- read.csv([file = 'master.csv' header =  TRUE)</code></pre>
-<pre><code>## Error: &lt;text&gt;:1:20: unexpected '['
-## 1: master &lt;- read.csv([
-##                        ^</code></pre>
-<p>Error: unexpected symbol in “master &lt;- read.csv(file =”master.csv&quot; header&quot;</p>
-<p>This time, I accidentally left out the comma between my file argument and header argument, so R gives me an error message about an unexpected symbol. R isn’t smart enough to tell you what is missing or extra, but it will tell you roughly where you should be looking for the error - it stops trying to run any code when it finds the error, so I know that my mistake is somewhere around the header argument.</p>
-<pre class="r"><code>master &lt;- read.csv([file = 'master.csv', header =  TRUE)</code></pre>
-<pre><code>## Error: &lt;text&gt;:1:20: unexpected '['
-## 1: master &lt;- read.csv([
-##                        ^</code></pre>
-<p>Sometimes R will be able to tell you what punctuation it found that it didn’t like, as it does in this case. I have a random [, and R tells me that.</p>
-<pre class="r"><code>master &lt;- tread.csv([file = 'master.csv', header =  TRUE)</code></pre>
-<pre><code>## Error: &lt;text&gt;:1:21: unexpected '['
-## 1: master &lt;- tread.csv([
-##                         ^</code></pre>
-<p>If you make a spelling mistake in a function, R will tell you that it couldn’t find that function. Check your spelling and try again. The same thing will happen if you make a spelling error in one of the arguments so that you are passing an argument that does not exist.</p>
+<p>This document will provide the commands needed to catch you up at the beginning of each section of the Introduction to R class. If at any point, you find that you are not getting the correct outputs, you can use these code chunks to get back on track with the class (and then sort out what went wrong later!).</p>
+<div id="on-track-for-section-2-processing-and-working-with-data" class="section level4">
+<h4>On track for section 2 Processing and Working with Data</h4>
+<p>If you do not have a variable called master with 18589 observations and 24 variables in the global environment, run the following code:</p>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)</code></pre>
 </div>
-<div id="getting-to-know-your-data" class="section level4">
-<h4>1.2 Getting to Know Your Data</h4>
-<p>Back to the data frame you read into your Global Environment. How can you get a sense of what master looks like? There are a several ways to explore the contents of the dataset. You could type in the name of the data frame, but unless your data frame is very small, that is probably not a good idea! The best way to start is by calling the str() function with the name of the data frame as the argument. This function shows the structure of the data.</p>
-<pre class="r"><code>str(master)</code></pre>
-<pre><code>## 'data.frame':    18589 obs. of  24 variables:
-##  $ playerID    : Factor w/ 18589 levels &quot;aardsda01&quot;,&quot;aaronha01&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
-##  $ birthYear   : int  1981 1934 1939 1954 1972 1985 1854 1877 1869 1866 ...
-##  $ birthMonth  : int  12 2 8 9 8 12 11 4 11 10 ...
-##  $ birthDay    : int  27 5 5 8 25 17 4 15 11 14 ...
-##  $ birthCountry: Factor w/ 53 levels &quot;&quot;,&quot;Afghanistan&quot;,..: 50 50 50 50 50 18 50 50 50 50 ...
-##  $ birthState  : Factor w/ 239 levels &quot;&quot;,&quot;AB&quot;,&quot;Aberdeen&quot;,..: 42 6 6 28 66 104 168 168 222 144 ...
-##  $ birthCity   : Factor w/ 4683 levels &quot;&quot;,&quot;Aberdeen&quot;,..: 1085 2698 2698 3071 3137 2195 3256 2273 1328 1372 ...
-##  $ deathYear   : int  NA NA 1984 NA NA NA 1905 1957 1962 1926 ...
-##  $ deathMonth  : int  NA NA 8 NA NA NA 5 1 6 4 ...
-##  $ deathDay    : int  NA NA 16 NA NA NA 17 6 11 27 ...
-##  $ deathCountry: Factor w/ 23 levels &quot;&quot;,&quot;American Samoa&quot;,..: 1 1 21 1 1 1 21 21 21 21 ...
-##  $ deathState  : Factor w/ 93 levels &quot;&quot;,&quot;AB&quot;,&quot;AK&quot;,&quot;AL&quot;,..: 1 1 26 1 1 1 57 25 88 12 ...
-##  $ deathCity   : Factor w/ 2527 levels &quot;&quot;,&quot;Aberdeen&quot;,..: 1 1 90 1 1 1 1716 750 457 1960 ...
-##  $ nameFirst   : Factor w/ 2268 levels &quot;&quot;,&quot;A. J.&quot;,&quot;Aaron&quot;,..: 505 906 2049 588 72 764 1133 638 156 332 ...
-##  $ nameLast    : Factor w/ 9605 levels &quot;Aardsma&quot;,&quot;Aaron&quot;,..: 1 2 2 3 4 4 5 6 7 7 ...
-##  $ nameGiven   : Factor w/ 12264 levels &quot;&quot;,&quot;A. Harry&quot;,..: 2451 5033 11261 2837 3678 3712 6526 3149 937 1691 ...
-##  $ weight      : int  205 180 190 190 184 220 192 170 175 169 ...
-##  $ height      : int  75 72 75 75 73 73 72 71 71 68 ...
-##  $ bats        : Factor w/ 4 levels &quot;&quot;,&quot;B&quot;,&quot;L&quot;,&quot;R&quot;: 4 4 4 4 3 3 4 4 4 3 ...
-##  $ throws      : Factor w/ 3 levels &quot;&quot;,&quot;L&quot;,&quot;R&quot;: 3 3 3 3 2 2 3 3 3 2 ...
-##  $ debut       : Factor w/ 9910 levels &quot;&quot;,&quot;10/1/1900&quot;,..: 2806 1555 1411 6077 7976 6177 233 1259 1002 1061 ...
-##  $ finalGame   : Factor w/ 8924 levels &quot;&quot;,&quot;10/1/1906&quot;,..: 8477 148 8255 155 1526 8384 349 7390 1324 1356 ...
-##  $ retroID     : Factor w/ 18536 levels &quot;&quot;,&quot;aardd001&quot;,..: 2 3 4 5 6 7 8 9 10 11 ...
-##  $ bbrefID     : Factor w/ 18589 levels &quot;&quot;,&quot;aardsda01&quot;,..: 2 3 4 5 6 7 8 9 10 11 ...</code></pre>
-<p>You can also get some basic summary statistics about your data.</p>
-<pre class="r"><code>summary(master)</code></pre>
-<pre><code>##       playerID       birthYear      birthMonth        birthDay    
-##  aardsda01:    1   Min.   :1820   Min.   : 1.000   Min.   : 1.00  
-##  aaronha01:    1   1st Qu.:1894   1st Qu.: 4.000   1st Qu.: 8.00  
-##  aaronto01:    1   Median :1935   Median : 7.000   Median :16.00  
-##  aasedo01 :    1   Mean   :1930   Mean   : 6.626   Mean   :15.62  
-##  abadan01 :    1   3rd Qu.:1967   3rd Qu.:10.000   3rd Qu.:23.00  
-##  abadfe01 :    1   Max.   :1994   Max.   :12.000   Max.   :31.00  
-##  (Other)  :18583   NA's   :145    NA's   :315      NA's   :472    
-##     birthCountry     birthState           birthCity       deathYear   
-##  USA      :16322   CA     : 2115   Chicago     :  376   Min.   :1872  
-##  D.R.     :  619   PA     : 1414   Philadelphia:  356   1st Qu.:1941  
-##  Venezuela:  321   NY     : 1202   St. Louis   :  296   Median :1966  
-##  P.R.     :  246   IL     : 1051   New York    :  267   Mean   :1963  
-##  CAN      :  244   OH     : 1030   Brooklyn    :  240   3rd Qu.:1988  
-##  Cuba     :  191   TX     :  873   Los Angeles :  228   Max.   :2014  
-##  (Other)  :  646   (Other):10904   (Other)     :16826   NA's   :9364  
-##    deathMonth        deathDay        deathCountry    deathState  
-##  Min.   : 1.000   Min.   : 1.00            :9366          :9420  
-##  1st Qu.: 3.000   1st Qu.: 8.00   USA      :9017   CA     :1059  
-##  Median : 6.000   Median :15.00   CAN      :  63   PA     : 792  
-##  Mean   : 6.486   Mean   :15.55   Cuba     :  26   NY     : 692  
-##  3rd Qu.:10.000   3rd Qu.:23.00   Mexico   :  23   OH     : 576  
-##  Max.   :12.000   Max.   :31.00   Venezuela:  21   FL     : 545  
-##  NA's   :9365     NA's   :9366    (Other)  :  73   (Other):5505  
-##         deathCity      nameFirst         nameLast    
-##              :9370   Bill   :  549   Smith   :  150  
-##  Philadelphia: 238   John   :  480   Johnson :  110  
-##  Chicago     : 181   Jim    :  443   Jones   :   97  
-##  St. Louis   : 175   Mike   :  429   Brown   :   89  
-##  Los Angeles : 136   Joe    :  396   Miller  :   88  
-##  New York    : 124   Bob    :  341   Williams:   76  
-##  (Other)     :8365   (Other):15951   (Other) :17979  
-##           nameGiven         weight          height      bats     
-##  John Joseph   :   74   Min.   : 65.0   Min.   :43.00    : 1190  
-##  John          :   56   1st Qu.:170.0   1st Qu.:71.00   B: 1150  
-##  William Henry :   53   Median :185.0   Median :72.00   L: 4814  
-##  William Joseph:   48   Mean   :185.6   Mean   :72.24   R:11435  
-##  William       :   44   3rd Qu.:197.0   3rd Qu.:74.00            
-##  Michael Joseph:   42   Max.   :320.0   Max.   :83.00            
-##  (Other)       :18272   NA's   :872     NA's   :809              
-##  throws           debut           finalGame         retroID     
-##   :  979             :  190   9/28/2014:  464           :   54  
-##  L: 3542   1884-05-01:   36   9/27/2014:  213   aardd001:    1  
-##  R:14068   1879-05-01:   26            :  190   aaroh101:    1  
-##            1882-05-02:   26   9/26/2014:  105   aarot101:    1  
-##            1884-04-17:   25   9/25/2014:   55   aased001:    1  
-##            4/13/1954 :   24   9/29/2013:   54   abada001:    1  
-##            (Other)   :18262   (Other)  :17508   (Other) :18530  
-##       bbrefID     
-##           :    1  
-##  aardsda01:    1  
-##  aaronha01:    1  
-##  aaronto01:    1  
-##  aasedo01 :    1  
-##  abadan01 :    1  
-##  (Other)  :18583</code></pre>
-<p>This displays different types of stats about each variable, depending on its type. For weight, summary returns the mean, median, and other summary stats. For birthState, summary returns a count of how many items are in each category. Let’s explore why this is by figuring out the class of these variables. A variable is referred to by using the date frame name, the $ and then the variable name.</p>
-<pre class="r"><code>class(master$birthState)</code></pre>
-<pre><code>## [1] &quot;factor&quot;</code></pre>
-<pre class="r"><code>class(master$weight)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<p>One other thing to note about the summary is that for some of the variables, summary returned the number of NAs – an important thing to note when we move to cleaning the data.</p>
-<p>The functions head() or tail() allow you to look at the first or last rows of a data frame. You can specify how many rows are displayed (default is 6 rows).</p>
-<pre class="r"><code>head(master, n=5)</code></pre>
-<pre><code>##    playerID birthYear birthMonth birthDay birthCountry birthState
-## 1 aardsda01      1981         12       27          USA         CO
-## 2 aaronha01      1934          2        5          USA         AL
-## 3 aaronto01      1939          8        5          USA         AL
-## 4  aasedo01      1954          9        8          USA         CA
-## 5  abadan01      1972          8       25          USA         FL
-##    birthCity deathYear deathMonth deathDay deathCountry deathState
-## 1     Denver        NA         NA       NA                        
-## 2     Mobile        NA         NA       NA                        
-## 3     Mobile      1984          8       16          USA         GA
-## 4     Orange        NA         NA       NA                        
-## 5 Palm Beach        NA         NA       NA                        
-##   deathCity nameFirst nameLast      nameGiven weight height bats throws
-## 1               David  Aardsma    David Allan    205     75    R      R
-## 2                Hank    Aaron    Henry Louis    180     72    R      R
-## 3   Atlanta    Tommie    Aaron     Tommie Lee    190     75    R      R
-## 4                 Don     Aase Donald William    190     75    R      R
-## 5                Andy     Abad  Fausto Andres    184     73    L      L
-##       debut finalGame  retroID   bbrefID
-## 1  4/6/2004 9/28/2013 aardd001 aardsda01
-## 2 4/13/1954 10/3/1976 aaroh101 aaronha01
-## 3 4/10/1962 9/26/1971 aarot101 aaronto01
-## 4 7/26/1977 10/3/1990 aased001  aasedo01
-## 5 9/10/2001 4/13/2006 abada001  abadan01</code></pre>
-<p>Finally, the function names() returns a list of the variables or column names in our dataset – this is useful if you need to check the spelling or capitalization of variables, or to find out the column number that corresponds to a variable. You’ll see later that you can refer to a column by its number or name.</p>
-<pre class="r"><code>names(master)</code></pre>
-<pre><code>##  [1] &quot;playerID&quot;     &quot;birthYear&quot;    &quot;birthMonth&quot;   &quot;birthDay&quot;    
-##  [5] &quot;birthCountry&quot; &quot;birthState&quot;   &quot;birthCity&quot;    &quot;deathYear&quot;   
-##  [9] &quot;deathMonth&quot;   &quot;deathDay&quot;     &quot;deathCountry&quot; &quot;deathState&quot;  
-## [13] &quot;deathCity&quot;    &quot;nameFirst&quot;    &quot;nameLast&quot;     &quot;nameGiven&quot;   
-## [17] &quot;weight&quot;       &quot;height&quot;       &quot;bats&quot;         &quot;throws&quot;      
-## [21] &quot;debut&quot;        &quot;finalGame&quot;    &quot;retroID&quot;      &quot;bbrefID&quot;</code></pre>
+<div id="on-track-for-section-2.1-subsetting" class="section level4">
+<h4>On track for section 2.1 Subsetting</h4>
+<p>If you do not have the variables master (18589 observations, 24 variables) and batting (99846 observations, 22 variables) in the global environment, run the following code:</p>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)</code></pre>
 </div>
+<div id="on-track-for-section-2.2-2.3-renaming-variables---installing-and-working-with-packages" class="section level4">
+<h4>On track for section 2.2-2.3 (Renaming Variables - Installing and Working with Packages)</h4>
+<p>If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, run the following code:</p>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)</code></pre>
 </div>
-<div id="processing-and-working-with-data" class="section level3">
-<h3>2 Processing and Working with Data</h3>
-<p>In this section you’ll learn to use R to easily do some basic processing and cleaning of data in order to make it easier to work with. This “data wrangling” step is of huge importance to any sort of data analysis.</p>
-<p>One of the things you might want to do is to take two different datasets and combine them using some unique ID that both datasets share. R is very good at this! Let’s read in another dataset about our baseball players. Now we will have two different data frames to work with.</p>
-<pre class="r"><code>batting &lt;- read.csv(file='batting.csv', header=TRUE)</code></pre>
-<div id="subsetting" class="section level4">
-<h4>2.1 Subsetting</h4>
-<p>You will often want to use a subset of data, particularly with a large dataset. Before we merge the batting data with the master data, we’ll create some new data frames that contain just parts of our larger dataset. Let’s create a new data frame using just the data from 2014. There are a number of ways to do this. You could use the subset function to select observations that exactly meet a specific criterion, in this case, only those from the year 2014.</p>
-<pre class="r"><code>batting2014 &lt;- subset(batting,  yearID == &quot;2014&quot;)</code></pre>
-<p>Year is an integer, so you can select a subset that meets some numeric criterion, such as all observations where year is greater than or equal to 2014.</p>
-<pre class="r"><code>batting2014 &lt;- subset(batting,  yearID  &gt;=  2014)</code></pre>
-<p>You can use Boolean operators, via the ampersand (for AND) and the pipe sign (for OR) to create complex conditions.</p>
-<pre class="r"><code>frequent_batting2014 &lt;- subset(batting, yearID &gt;= 2014 &amp; AB &gt; 20)</code></pre>
-<p>You can nest conditions with parentheses to get really specific, for example, selecting players with more than 50 runs OR more than 25 homers in 2014.</p>
-<pre class="r"><code>best_batting2014 &lt;- subset(batting, yearID &gt;= 2014 &amp; (R &gt; 50 |  HR &gt;= 25))</code></pre>
-<p>Another way to subset data is to refer to specific rows and/or columns using square brackets after the data frame name, with the first number in the brackets interpreted by R as a row index, and the second as a column index. For example, you can create a new data frame with the first 5 observations in the batting data frame. When you put nothing after the comma, it will take all the columns for those first 5 observations.</p>
-<pre class="r"><code>first5 &lt;- batting[1:5, ]</code></pre>
-<p>Conversely, if you put nothing before the comma, you will have all of the rows, but in this case, just the first two columns of all of those observations.</p>
-<pre class="r"><code>player.year &lt;- batting[, 1:2]</code></pre>
-<p>It is also possible to use this syntax to remove data. For example, this creates a new dataset with everything except the 3rd column.</p>
-<pre class="r"><code>no_3rd &lt;- batting[, -3]</code></pre>
-<p>You can access a range of rows or columns, referred to as a slice, by using the colon.</p>
-<pre class="r"><code>new_batting &lt;- batting[1:100, -3]</code></pre>
-<p>The function c() concatenates numbers, so allows you to access a non-consecutive set of rows or columns, such as here, where I’m taking rows 1-100 and 400-425 of columns 1, 2, and 5.</p>
-<pre class="r"><code>new_batting &lt;- batting[c(1:100, 400:425), c(1, 2, 5)]</code></pre>
-<p>R can generate a random sample using the sample() function. This example returns 50 random observations from the batting data frame.</p>
-<pre class="r"><code>random.batting &lt;- batting[sample(1:nrow(batting), 50), ]</code></pre>
+<div id="on-track-for-section-2.3-installing-and-working-with-packages" class="section level4">
+<h4>On track for section 2.3 Installing and Working with Packages</h4>
+<p>If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:</p>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
+names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;</code></pre>
 </div>
-<div id="renaming-variables" class="section level4">
-<h4>2.2 Renaming Variables</h4>
-<p>One of the things you may have noticed about our dataset is that the variable names aren’t very descriptive. There are 22 variables, but most of them are just a letter, which isn’t helpful without a codebook in front of us. As is so often the case with R, there are many ways to rename these variables. One way is to tell R to take look through the variable names for the one that is currently called R and rename it as runs.</p>
-<pre class="r"><code>names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;</code></pre>
-<p>Another method is to use the number of the column to tell R which variable to rename.</p>
-<pre class="r"><code>names(batting2014)[6] &lt;- &quot;games&quot;</code></pre>
-<p>Next, we will learn about packages – in particular a package called plyr – which makes variable renaming even easier.</p>
+<div id="on-track-for-section-2.4-merging-datasets" class="section level4">
+<h4>On track for section 2.4 Merging Datasets</h4>
+<p>If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:</p>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
+names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;
+library(plyr)
+batting2014  &lt;-  rename(batting2014,  c(AB=&quot;at_bats&quot;, H=&quot;hits&quot;, X2B=&quot;doubles&quot;))</code></pre>
 </div>
-<div id="installing-and-working-with-packages" class="section level4">
-<h4>2.3 Installing and Working with Packages</h4>
-<p>R has quite a bit of built-in functionality, but there are also many, many free packages that add functions that are not part of the base R functionality. You can download and install these packages, then tell R which packages you want to use, in order to pull in functions that make your work easier. By selecting “install” under the Packages tab, RStudio will figure out the right code to run to install the package you choose. Using the install button, install the package plyr now. Once you’ve installed a package, you still need to tell RStudio when you want to use it. You can do that by checking the box next to its name in the Packages tab list, or you can do so by loading it using the library() function.</p>
-<pre class="r"><code>library(plyr)</code></pre>
-<p>Now we can use the handy rename function that’s part of plyr. Simply enter the names of all the variables you’d like to rename. Notice the variable ”X2B.” Variables can’t start with numbers, so when R read our CSV file in, it changed the variable name ”2B” to ”X2B”</p>
-<pre class="r"><code>batting2014  &lt;-  rename(batting2014,  c(AB=&quot;at_bats&quot;, H=&quot;hits&quot;, X2B=&quot;doubles&quot;))</code></pre>
-<p>Let’s check out our new names for our batting2014 dataset</p>
-<pre class="r"><code>names(batting2014)</code></pre>
-<pre><code>##  [1] &quot;playerID&quot; &quot;yearID&quot;   &quot;stint&quot;    &quot;teamID&quot;   &quot;lgID&quot;     &quot;games&quot;   
-##  [7] &quot;at_bats&quot;  &quot;runs&quot;     &quot;hits&quot;     &quot;doubles&quot;  &quot;X3B&quot;      &quot;HR&quot;      
-## [13] &quot;RBI&quot;      &quot;SB&quot;       &quot;CS&quot;       &quot;BB&quot;       &quot;SO&quot;       &quot;IBB&quot;     
-## [19] &quot;HBP&quot;      &quot;SH&quot;       &quot;SF&quot;       &quot;GIDP&quot;</code></pre>
+<div id="on-track-for-section-2.5-recoding-data-creating-new-variables-and-changing-data-types" class="section level4">
+<h4>On track for section 2.5 Recoding Data, Creating New Variables, and Changing Data Types</h4>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
+names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;
+library(plyr)
+batting2014  &lt;-  rename(batting2014,  c(AB=&quot;at_bats&quot;, H=&quot;hits&quot;, X2B=&quot;doubles&quot;))
+full_data  &lt;-  merge(batting2014, master, by = &quot;playerID&quot;)</code></pre>
 </div>
-<div id="merging-datasets" class="section level4">
-<h4>2.4 Merging Datasets</h4>
-<p>Now that you have renamed the batting dataset, you can merge the master dataset with player info, with the batting dataset using the merge() function. The merge() function can be used with any two datasets as long as they share at least one common column name. In this case, both the master and batting datasets have a variable called playerID, which is a unique identifier for each player. To create a new data frame by merging the two data frames:</p>
-<pre class="r"><code>full_data  &lt;-  merge(batting2014, master, by = &quot;playerID&quot;)</code></pre>
-<p>Notice that our new data frame has 1435 observations. Each player has been matched with his master data, but not every player in the master list of 18,000+ is in the 2014 batting dataset. You can also choose to include all players in the new data frame, even if their batting data is not in the batting dataset. In the merge function, our first data frame is considered X, and the second Y. So if we use all.y = TRUE, R will add every observation from the master list, even if there is no corresponding match in batting.</p>
-<pre class="r"><code>full_data_all  &lt;-  merge(batting2014, master, by = &quot;playerID&quot;, all.y = TRUE)</code></pre>
-</div>
-<div id="recoding-data-creating-new-variables-and-changing-data-types" class="section level4">
-<h4>2.5 Recoding Data, Creating New Variables, and Changing Data Types</h4>
-<p>Sometimes it’s desirable to recode data (for example, changing all No responses to 0 and Yes responses to 1), create new variables based on existing data, or adjust the class of data (for example, changing a factor to an ordered factor). Let’s recode this data to use the full state name instead of an abbreviation in the birth state column. We will just do this for a couple of states to get the idea using the revalue function from the plyr package.</p>
-<pre class="r"><code>full_data$birthState  &lt;-  revalue(full_data$birthState,  c(TX=&quot;Texas&quot;, CA=&quot;California&quot;))</code></pre>
-<p>Looking at the summary of the birth state variable, we see that Texas and California are now spelled out. (Note the maxsum argument here to specify that only the first n observations should be displayed, rather than the entire summary for this variable.)</p>
-<pre class="r"><code>summary(full_data$birthState, maxsum = 5)</code></pre>
-<pre><code>## California      Texas         FL               (Other) 
-##        223        119         91         52        950</code></pre>
-<p>It can be useful to create a new variable based on some existing data. For example, we could make a new ordinal variable called rel_height based on the height variable, categorizing our players as short, average, or tall. We’ll do this one category at a time.</p>
-<pre class="r"><code>full_data$rel_height[full_data$height  &lt;  70] &lt;- &quot;short&quot;
+<div id="on-track-for-section-2.6-dealing-with-nas" class="section level4">
+<h4>On track for section 2.6 Dealing with NAs</h4>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
+names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;
+library(plyr)
+batting2014  &lt;-  rename(batting2014,  c(AB=&quot;at_bats&quot;, H=&quot;hits&quot;, X2B=&quot;doubles&quot;))
+full_data  &lt;-  merge(batting2014, master, by = &quot;playerID&quot;)
+full_data$birthState  &lt;-  revalue(full_data$birthState,  c(TX=&quot;Texas&quot;, CA=&quot;California&quot;))
+full_data$rel_height[full_data$height  &lt;  70] &lt;- &quot;short&quot;
 full_data$rel_height[full_data$height &gt;= 70 &amp; full_data$height &lt;= 75] &lt;- &quot;average&quot;
-full_data$rel_height[full_data$height &gt; 75] &lt;- &quot;tall&quot;</code></pre>
-<p>We have our new variable now, but we have a problem:</p>
-<pre class="r"><code>class(full_data$rel_height)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<p>The variable rel_height was created as a character variable, because that is how R interpreted it when we assigned a string to the variable. But rel_height is actually an ordinal variable, so we want it to be a factor variable. And the different values of this variable are not independent categories – they have meaning relative to each other, so what really makes sense for this variable is that it be an ordered factor. First, to convert to a factor variable:</p>
-<pre class="r"><code>full_data$rel_height &lt;- as.factor(full_data$rel_height)</code></pre>
-<p>At this point, it lacks ordering, so there is no understood relationship - the three categories are just presumed to be three separate groups. One way we can tell that R doesn’t know the order of our factor levels yet is by having it show us a table of values. R arranges the table in alphabetical order.</p>
-<pre class="r"><code>table(full_data$rel_height)</code></pre>
-<pre><code>## 
-## average   short    tall 
-##    1055      62     318</code></pre>
-<p>Now that this variable is a factor, we can add ordering to it to introduce the relationship between the different groups. This is important for certain types of analyses (e.g., analyzing Likert scale data) and also ensures that the data points are arranged correctly for any visualizations you might create.</p>
-<pre class="r"><code>full_data$rel_height &lt;- factor(full_data$rel_height,levels= c(&quot;short&quot;,&quot;average&quot;,&quot;tall&quot;))</code></pre>
-<p>Now you can see the data are in the correct order.</p>
-<pre class="r"><code>table(full_data$rel_height)</code></pre>
-<pre><code>## 
-##   short average    tall 
-##      62    1055     318</code></pre>
-<p>You can also create new variables that transform existing variables through some sort of calculation. For example, the weight variable is in pounds, but you can change that to kilograms by multiplying the weight column by the conversion factor and assigning the output to a new column.</p>
-<pre class="r"><code>full_data$wt_kg &lt;- full_data$weight * 0.453592</code></pre>
+full_data$rel_height[full_data$height &gt; 75] &lt;- &quot;tall&quot;
+full_data$rel_height &lt;- as.factor(full_data$rel_height)
+full_data$rel_height &lt;- factor(full_data$rel_height,levels= c(&quot;short&quot;,&quot;average&quot;,&quot;tall&quot;))
+full_data$wt_kg &lt;- full_data$weight * 0.453592</code></pre>
 </div>
-<div id="dealing-with-nas" class="section level4">
-<h4>2.6 Dealing with NAs</h4>
-<p>Often a dataset will have missing values, typically represented by NAs. But applying functions to variables with NAs can be problematic, for example applying the mean function to the weight variable in the master dataset.</p>
-<pre class="r"><code>mean(master$weight)</code></pre>
-<pre><code>## [1] NA</code></pre>
-<p>R returns a mean of NA because there are NA values in this variable, but you can tell R to ignore NAs and return the mean of the existing data.</p>
-<pre class="r"><code>mean(master$weight,  na.rm  =  TRUE)</code></pre>
-<pre><code>## [1] 185.5627</code></pre>
-<p>Sometimes it’s desirable to create a subset of a dataset that only contains those observations for which all there is a complete set of data, that is, no NAs. The na.omit() function will remove all observations that are not complete. So any row that has even a single NA will be deleted.</p>
-<pre class="r"><code>no_na &lt;- na.omit(batting)</code></pre>
-<p>A more conservative approach is to remove only those observations that have NAs in key variables. For example, removing only those players for whom there is an NA in the runs variable. This can be done using !is.na. The exclamation mark stands for NOT - in other words, everything that is NOT NA.</p>
-<pre class="r"><code>has_runs &lt;- full_data[!is.na(full_data$runs), ]</code></pre>
-<p>NOTE: You can specify an NA value when reading in a data file – say a csv file uses 999 to indicate missing data, you can ask R to replace those with NAs.</p>
-<pre class="r"><code>new_data &lt;- read.csv(file =&quot;master.csv&quot;,na.strings =&quot;999&quot;)</code></pre>
+<div id="on-track-for-sections-2.6-4.2-dealing-with-nas-through-transforming-and-summarizing-data" class="section level4">
+<h4>On track for sections 2.6-4.2 Dealing with NAs through Transforming and Summarizing Data</h4>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
+names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;
+library(plyr)
+batting2014  &lt;-  rename(batting2014,  c(AB=&quot;at_bats&quot;, H=&quot;hits&quot;, X2B=&quot;doubles&quot;))
+full_data  &lt;-  merge(batting2014, master, by = &quot;playerID&quot;)
+full_data$birthState  &lt;-  revalue(full_data$birthState,  c(TX=&quot;Texas&quot;, CA=&quot;California&quot;))
+full_data$rel_height[full_data$height  &lt;  70] &lt;- &quot;short&quot;
+full_data$rel_height[full_data$height &gt;= 70 &amp; full_data$height &lt;= 75] &lt;- &quot;average&quot;
+full_data$rel_height[full_data$height &gt; 75] &lt;- &quot;tall&quot;
+full_data$rel_height &lt;- as.factor(full_data$rel_height)
+full_data$rel_height &lt;- factor(full_data$rel_height,levels= c(&quot;short&quot;,&quot;average&quot;,&quot;tall&quot;))
+full_data$wt_kg &lt;- full_data$weight * 0.453592</code></pre>
 </div>
-<div id="working-with-tables" class="section level4">
-<h4>2.7 Working with Tables</h4>
-<p>So far we’ve primarily dealt with our data in the form of a data frame. Another useful class of data is tables. Some statistical tests require that data be in a table. Tables are also helpful for getting a feel for how the data is distributed. Suppose you want to create a table of height for both left and right-handed players. First make a minor modification to the data removing empty levels from the variable that specified handedness – ”throws”.</p>
-<pre class="r"><code>full_data$throws  &lt;-  factor(full_data$throws)</code></pre>
-<p>To create the table, simply specify the variables you want included.</p>
-<pre class="r"><code>handedtbl  &lt;-  table(full_data$throws,  full_data$rel_height)
-handedtbl</code></pre>
-<pre><code>##    
-##     short average tall
-##   L     9     234   78
-##   R    53     821  240</code></pre>
-<p>The order in which pass variables to the table function determines which are columns and which are rows. Reversing the order transposes the table.</p>
-<pre class="r"><code>handedtbl &lt;- table(full_data$rel_height, full_data$throws)
-handedtbl</code></pre>
-<pre><code>##          
-##             L   R
-##   short     9  53
-##   average 234 821
-##   tall     78 240</code></pre>
-<p>You can also create a table that provides the proportions rather than the raw values. The margin argument specifies whether the proportions are calculated across rows (margin = 1) or columns (margin = 2).</p>
-<pre class="r"><code>prop.handed &lt;- prop.table(handedtbl, margin = 1)
-prop.handed</code></pre>
-<pre><code>##          
-##                   L         R
-##   short   0.1451613 0.8548387
-##   average 0.2218009 0.7781991
-##   tall    0.2452830 0.7547170</code></pre>
-<pre class="r"><code>prop.handed &lt;- prop.table(handedtbl, margin = 2)
-prop.handed</code></pre>
-<pre><code>##          
-##                    L          R
-##   short   0.02803738 0.04757630
-##   average 0.72897196 0.73698384
-##   tall    0.24299065 0.21543986</code></pre>
-</div>
-</div>
-<div id="iteration-and-the-apply-functions" class="section level3">
-<h3>3 Iteration and the Apply Functions</h3>
-<p>A benefit of R is that it has many built-in functions that can efficiently handle iterative processing. You don’t have to manually change or analyze data column by column or row by row - one set of code can be iterated over an entire set of data. If you’re familiar with other programming languages, you may be used to iterating using a “for loop”. You can write for loops in R, but this is generally less efficient than other methods of iteration shown here.</p>
-<div id="apply" class="section level4">
-<h4>3.1 Apply</h4>
-<p>There are several different “apply” functions that take instructions and apply them over a set of data. The most basic is apply(), which will apply a function over set of columns or rows. You can specify whether you want the function applied over columns or rows (or both). For example, suppose you want to calculate the mean for each column in a data frame. The apply function takes 3 arguments:<br />
-* the data frame of interest<br />
-* the margin argument (1 for row, 2 for column, c(1,2) for both)<br />
-* a function (in this case, mean)</p>
-<pre class="r"><code>apply(full_data,  2,  mean)</code></pre>
-<pre><code>##     playerID       yearID        stint       teamID         lgID 
-##           NA           NA           NA           NA           NA 
-##        games      at_bats         runs         hits      doubles 
-##           NA           NA           NA           NA           NA 
-##          X3B           HR          RBI           SB           CS 
-##           NA           NA           NA           NA           NA 
-##           BB           SO          IBB          HBP           SH 
-##           NA           NA           NA           NA           NA 
-##           SF         GIDP    birthYear   birthMonth     birthDay 
-##           NA           NA           NA           NA           NA 
-## birthCountry   birthState    birthCity    deathYear   deathMonth 
-##           NA           NA           NA           NA           NA 
-##     deathDay deathCountry   deathState    deathCity    nameFirst 
-##           NA           NA           NA           NA           NA 
-##     nameLast    nameGiven       weight       height         bats 
-##           NA           NA           NA           NA           NA 
-##       throws        debut    finalGame      retroID      bbrefID 
-##           NA           NA           NA           NA           NA 
-##   rel_height        wt_kg 
-##           NA           NA</code></pre>
-<p>The problem with this code was that every variable had NA values, so the means were all NAs. We need to omit the NA values. We also only want means of the numeric variables (columns 6-22). I don’t have to create a new data frame to do this - I can just nest my functions and put it all in one line of code:</p>
-<pre class="r"><code>apply(na.omit(full_data[,  6:22]),  2,  mean)</code></pre>
-<pre><code>##       games     at_bats        runs        hits     doubles         X3B 
-##  48.4766551 115.4104530  13.7707317  28.9860627   5.6703833   0.5916376 
-##          HR         RBI          SB          CS          BB          SO 
-##   2.9170732  13.0627178   1.9261324   0.7212544   9.7700348  26.0912892 
-##         IBB         HBP          SH          SF        GIDP 
-##   0.6864111   1.1512195   0.9358885   0.8898955   2.5149826</code></pre>
-</div>
-<div id="by" class="section level4">
-<h4>3.2 By</h4>
-<p>The by() function is another iterative function that is used when you want to break data up by groups. Suppose you want to calculate those same means, but you want to break it up by the player’s league (American or National). The by function takes 3 arguments:<br />
-* the data frame of interest<br />
-* the variable to group on (in this case, lgID)<br />
-* a function (NOTE: margins is no longer available as an argument so if you want the means of columns you can use the function colMeans)</p>
-<pre class="r"><code>by(na.omit(full_data[,   6:22]),   full_data$lgID,   colMeans)</code></pre>
-<pre><code>## full_data$lgID: AA
-## NULL
-## -------------------------------------------------------- 
-## full_data$lgID: AL
-##       games     at_bats        runs        hits     doubles         X3B 
-##  46.6970509 111.4249330  13.6206434  28.1943700   5.5388740   0.5227882 
-##          HR         RBI          SB          CS          BB          SO 
-##   2.8967828  12.9168901   1.8686327   0.6595174   9.5053619  24.4571046 
-##         IBB         HBP          SH          SF        GIDP 
-##   0.6313673   1.1126005   0.6126005   0.9101877   2.4852547 
-## -------------------------------------------------------- 
-## full_data$lgID: FL
-## NULL
-## -------------------------------------------------------- 
-## full_data$lgID: NL
-##       games     at_bats        runs        hits     doubles         X3B 
-##  50.4034833 119.7256894  13.9332366  29.8432511   5.8127721   0.6661829 
-##          HR         RBI          SB          CS          BB          SO 
-##   2.9390421  13.2206096   1.9883890   0.7880987  10.0566038  27.8606676 
-##         IBB         HBP          SH          SF        GIDP 
-##   0.7460087   1.1930334   1.2859216   0.8679245   2.5471698 
-## -------------------------------------------------------- 
-## full_data$lgID: PL
-## NULL
-## -------------------------------------------------------- 
-## full_data$lgID: UA
-## NULL</code></pre>
-</div>
-<div id="the-other-apply-functions" class="section level4">
-<h4>3.3 The Other Apply Functions</h4>
-<p>There are a many other apply-like functions that can be used depending on what type of data you’re putting into the function and what kind of data you hope to get out. For example, lapply returns a list, thus the ”l” in the name, while mapply lets you apply to the function to multiple arguments, thus the ”m.” We won’t get into these here, but be aware that there are many options available depending on the type of data you’re working with.</p>
-</div>
-</div>
-<div id="restructuring-and-reorganizing-data" class="section level3">
-<h3>4 Restructuring and Reorganizing Data</h3>
-<p>We’ve dealt with a variety of functions that allow us to modify and process data. Next, we’ll deal with some ways to restructure and reorganize data.</p>
-<div id="sorting-data" class="section level4">
-<h4>4.1 Sorting Data</h4>
-<p>Our data frame is sorted alphabetically by player ID, but we can sort by any variable by using the order() function. For example, this code will sort the data frame by weight (Note, this code is not saving the re-sorted data frame to a new variable, it is just printing out the first 6 rows):</p>
-<pre class="r"><code>head(full_data[order(full_data$weight), ])</code></pre>
-<pre><code>##       playerID yearID stint teamID lgID games at_bats runs hits doubles
-## 34   amarial01   2014     1    SDN   NL   148     423   39  101      13
-## 582  herredi01   2014     1    NYN   NL    18      59    6   13       0
-## 1119 rojasmi02   2014     1    LAN   NL    85     149   16   27       3
-## 1178 sardilu01   2014     1    TEX   AL    43     115   12   30       6
-## 110  bettsmo01   2014     1    BOS   AL    52     189   34   55      12
-## 333   diazjo02   2014     1    TOR   AL    23      38    3    6       1
-##      X3B HR RBI SB CS BB SO IBB HBP SH SF GIDP birthYear birthMonth
-## 34     2  5  40 12  1 29 69   5   1  8  5    6      1989          4
-## 582    1  3  11  0  0  7 17   0   0  0  0    3      1994          3
-## 1119   0  1   9  0  0 10 28   1   2  1  0    5      1989          2
-## 1178   0  0   8  5  1  5 21   0   2  3  0    5      1993          5
-## 110    1  5  18  7  3 21 31   0   2  1  0    2      1992         10
-## 333    0  0   4  1  0  3 14   0   2  2  0    1      1985          4
-##      birthDay birthCountry birthState   birthCity deathYear deathMonth
-## 34          6    Venezuela Anzoategui   Barcelona        NA         NA
-## 582         3     Colombia    Bolivar   Cartagena        NA         NA
-## 1119       24    Venezuela    Miranda  Los Teques        NA         NA
-## 1178       16    Venezuela    Bolivar       Upata        NA         NA
-## 110         7          USA         TN   Nashville        NA         NA
-## 333        10          USA         FL Miami Beach        NA         NA
-##      deathDay deathCountry deathState deathCity nameFirst nameLast
-## 34         NA                                       Alexi Amarista
-## 582        NA                                      Dilson  Herrera
-## 1119       NA                                      Miguel    Rojas
-## 1178       NA                                        Luis Sardinas
-## 110        NA                                      Mookie    Betts
-## 333        NA                                    Jonathan     Diaz
-##           nameGiven weight height bats throws     debut finalGame  retroID
-## 34       Alexi Jose    150     66    L      R 4/26/2011 9/28/2014 amara001
-## 582     Dilson Jose    150     70    R      R 8/29/2014 9/20/2014 herrd002
-## 1119   Miguel Elias    150     72    R      R  6/6/2014 9/28/2014 rojam002
-## 1178 Luis Alexander    150     73    B      R 4/20/2014 9/28/2014 sardl001
-## 110     Markus Lynn    155     69    R      R 6/29/2014 9/28/2014 bettm001
-## 333        Jonathan    155     69    R      R 6/29/2013 5/12/2014 diazj004
-##        bbrefID rel_height    wt_kg
-## 34   amarial01      short 68.03880
-## 582  herredi01    average 68.03880
-## 1119 rojasmi02    average 68.03880
-## 1178 sardilu01    average 68.03880
-## 110  bettsmo01      short 70.30676
-## 333   diazjo02      short 70.30676</code></pre>
-<p>By default, the sort will be done ascending, but I can also switch to a descending sort by passing the decreasing argument to the function.</p>
-<pre class="r"><code>head(full_data[order(full_data$weight, decreasing = TRUE),  ])</code></pre>
-<pre><code>##      playerID yearID stint teamID lgID games at_bats runs hits doubles X3B
-## 334  diazju03   2014     1    CIN   NL    36       0    0    0       0   0
-## 150 broxtjo01   2014     1    CIN   NL    51       0    0    0       0   0
-## 151 broxtjo01   2014     2    MIL   NL    11       0    0    0       0   0
-## 262 colonba01   2014     1    NYN   NL    31      62    3    2       1   0
-## 362  dunnad01   2014     1    CHA   AL   106     363   43   80      17   0
-## 363  dunnad01   2014     2    OAK   AL    25      66    6   14       1   0
-##     HR RBI SB CS BB  SO IBB HBP SH SF GIDP birthYear birthMonth birthDay
-## 334  0   0  0  0  0   0   0   0  0  0    0      1984          2       27
-## 150  0   0  0  0  0   0   0   0  0  0    0      1984          6       16
-## 151  0   0  0  0  0   0   0   0  0  0    0      1984          6       16
-## 262  0   0  0  0  0  33   0   0  7  0    0      1973          5       24
-## 362 20  54  1  1 65 132   5   3  0  4    5      1979         11        9
-## 363  2  10  0  0  6  27   0   4  0  0    0      1979         11        9
-##     birthCountry   birthState birthCity deathYear deathMonth deathDay
-## 334         D.R.    La Romana La Romana        NA         NA       NA
-## 150          USA           GA   Augusta        NA         NA       NA
-## 151          USA           GA   Augusta        NA         NA       NA
-## 262         D.R. Puerto Plata  Altamira        NA         NA       NA
-## 362          USA        Texas   Houston        NA         NA       NA
-## 363          USA        Texas   Houston        NA         NA       NA
-##     deathCountry deathState deathCity nameFirst nameLast    nameGiven
-## 334                                       Jumbo     Diaz  Jose Rafael
-## 150                                    Jonathan  Broxton Jonathan Roy
-## 151                                    Jonathan  Broxton Jonathan Roy
-## 262                                     Bartolo    Colon      Bartolo
-## 362                                        Adam     Dunn    Adam Troy
-## 363                                        Adam     Dunn    Adam Troy
-##     weight height bats throws     debut finalGame  retroID   bbrefID
-## 334    315     76    R      R 6/20/2014 9/27/2014 diazj005  diazju03
-## 150    295     76    R      R 7/29/2005 9/27/2014 broxj001 broxtjo01
-## 151    295     76    R      R 7/29/2005 9/27/2014 broxj001 broxtjo01
-## 262    285     71    R      R  4/4/1997 9/28/2014 colob001 colonba01
-## 362    285     78    L      R 7/20/2001 9/28/2014 dunna001  dunnad01
-## 363    285     78    L      R 7/20/2001 9/28/2014 dunna001  dunnad01
-##     rel_height    wt_kg
-## 334       tall 142.8815
-## 150       tall 133.8096
-## 151       tall 133.8096
-## 262    average 129.2737
-## 362       tall 129.2737
-## 363       tall 129.2737</code></pre>
-<p>You can sort on multiple variables as well. For example, you can sort by birthYear, birthMonth, and birthday. The order in which these variables are passed to the order is the order in which the data will be sorted.</p>
-<pre class="r"><code>head(full_data[order(full_data$birthYear, full_data$birthMonth, full_data$birthDay), ])</code></pre>
-<pre><code>##       playerID yearID stint teamID lgID games at_bats runs hits doubles
-## 473  giambja01   2014     1    CLE   AL    26      60    3    8       2
-## 624  ibanera01   2014     1    LAA   AL    57     166   16   26       5
-## 625  ibanera01   2014     2    KCA   AL    33      80    7   15       3
-## 564  hawkila01   2014     1    COL   NL    57       1    0    0       0
-## 262  colonba01   2014     1    NYN   NL    31      62    3    2       1
-## 1276 suzukic01   2014     1    NYA   AL   143     359   42  102      13
-##      X3B HR RBI SB CS BB SO IBB HBP SH SF GIDP birthYear birthMonth
-## 473    0  2   5  0  0  9 12   2   1  0  0    3      1971          1
-## 624    2  3  21  3  2 23 43   0   0  0  1    1      1972          6
-## 625    1  2   5  0  0 10 16   0   0  0  0    1      1972          6
-## 564    0  0   0  0  0  0  1   0   0  0  0    0      1972         12
-## 262    0  0   0  0  0  0 33   0   0  7  0    0      1973          5
-## 1276   2  1  22 15  3 21 68   1   1  2  2    3      1973         10
-##      birthDay birthCountry   birthState         birthCity deathYear
-## 473         8          USA   California       West Covina        NA
-## 624         2          USA           NY          New York        NA
-## 625         2          USA           NY          New York        NA
-## 564        21          USA           IN              Gary        NA
-## 262        24         D.R. Puerto Plata          Altamira        NA
-## 1276       22        Japan        Aichi Nichi Kasugai-gun        NA
-##      deathMonth deathDay deathCountry deathState deathCity nameFirst
-## 473          NA       NA                                       Jason
-## 624          NA       NA                                        Raul
-## 625          NA       NA                                        Raul
-## 564          NA       NA                                      LaTroy
-## 262          NA       NA                                     Bartolo
-## 1276         NA       NA                                      Ichiro
-##      nameLast     nameGiven weight height bats throws     debut finalGame
-## 473    Giambi Jason Gilbert    240     75    L      R  5/8/1995 9/27/2014
-## 624    Ibanez   Raul Javier    225     74    L      R  8/1/1996 9/28/2014
-## 625    Ibanez   Raul Javier    225     74    L      R  8/1/1996 9/28/2014
-## 564   Hawkins        LaTroy    220     77    R      R 4/29/1995 9/27/2014
-## 262     Colon       Bartolo    285     71    R      R  4/4/1997 9/28/2014
-## 1276   Suzuki        Ichiro    170     71    L      R  4/2/2001 9/28/2014
-##       retroID   bbrefID rel_height     wt_kg
-## 473  giamj001 giambja01    average 108.86208
-## 624  ibanr001 ibanera01    average 102.05820
-## 625  ibanr001 ibanera01    average 102.05820
-## 564  hawkl001 hawkila01       tall  99.79024
-## 262  colob001 colonba01    average 129.27372
-## 1276 suzui001 suzukic01    average  77.11064</code></pre>
-</div>
-<div id="transforming-and-summarizing-data" class="section level4">
-<h4>4.2 Transforming and Summarizing Data</h4>
-<p>The by() function allowed you to apply a function to data by group to get summary data for each of the groups. The ddply() function in the plyr package can also be useful for doing this. Suppose you want to compile some team stats by finding all the players for each team, and adding up their home runs and runs. The ddply function needs a few arguments:<br />
-* the data frame<br />
-* the variable(s) on which you want to group (in this case the team and year, so you get stats by team for each year)<br />
-* the function to apply<br />
-* how to create and what to name the newly created variables</p>
-<p>So in this case, the function is summarize, which means that a new condensed data frame will be created with just the data specified here. The new variables created will be sums and means of the runs and home runs for each team and year. Adding the na.rm=TRUE argument to the calls to sum and mean will avoid returning NAs if there are any missing data points. The function call is as follows:</p>
-<pre class="r"><code>team_summary &lt;- ddply(batting, c(&quot;teamID&quot;, &quot;yearID&quot;), summarize, total_homeruns  =  sum(HR,  na.rm  =  TRUE),  total_runs  =  sum(R, na.rm  =  TRUE),  mean_homeruns  =  mean(HR,  na.rm  =  TRUE), mean_runs = mean(R, na.rm = TRUE))
-head(team_summary)</code></pre>
-<pre><code>##   teamID yearID total_homeruns total_runs mean_homeruns mean_runs
-## 1    ALT   1884              2         90     0.1176471  5.294118
-## 2    ANA   1997            161        829     4.6000000 23.685714
-## 3    ANA   1998            147        787     3.8684211 20.710526
-## 4    ANA   1999            158        711     4.1578947 18.710526
-## 5    ANA   2000            236        864     5.2444444 19.200000
-## 6    ANA   2001            158        691     4.1578947 18.184211</code></pre>
-</div>
-<div id="reshaping-data-from-long-to-wide" class="section level4">
-<h4>4.3 Reshaping Data from Long to Wide</h4>
-<p>There are many ways to organize your data and sometimes the analyses you are doing will require that the data to be organized in a certain way. This is often the case with observations at multiple time points, as is the case with our team summary date. Looking at the first 8 rows of the team summary:</p>
-<pre class="r"><code>head(team_summary,  n  =  8)</code></pre>
-<pre><code>##   teamID yearID total_homeruns total_runs mean_homeruns mean_runs
-## 1    ALT   1884              2         90     0.1176471  5.294118
-## 2    ANA   1997            161        829     4.6000000 23.685714
-## 3    ANA   1998            147        787     3.8684211 20.710526
-## 4    ANA   1999            158        711     4.1578947 18.710526
-## 5    ANA   2000            236        864     5.2444444 19.200000
-## 6    ANA   2001            158        691     4.1578947 18.184211
-## 7    ANA   2002            152        851     3.8000000 21.275000
-## 8    ANA   2003            150        736     3.4883721 17.116279</code></pre>
-<p>This format – several rows for each of the teams, one for each year – is called a long format. This format is easy to read, but it does not conform to what are known as the “principles of tidy data” and therefore are not in the best format for analyzing the data in R. In tidy data, each variable forms a column and each observation forms a row so for this data to be tidy, it needs to be converted from its current long format to a wide format. In a wide format, each observation will have one (and only one) row. While the long form of the summary has several rows for each team in our summary, after the conversion, each team will have only one row.</p>
-<p>In order to do this, you have to create some new columns that combine the year with the variables of interest. In other words, there will be a column for each year, for each of the four variables. This means there will be more columns than before, but fewer rows – wide, rather than long. There are a couple of methods to convert the data from long to wide. One of these is the reshape function. This function takes a few arguments:<br />
-* the dataframe (for the purposes of this demo, we can take the subset of summary data from 2010 forward)<br />
-* the timevar - this variable creates the separate records for each individual observation. In this data frame, yearID is that time variable)<br />
-* the idvar - this is the variable that contains the identifier for each unique subject – in this case teams<br />
-* direction - whether the convertion is from long to wide or from wide to long (reshape can do either)</p>
-<pre class="r"><code>wide &lt;- reshape(subset(team_summary, yearID &gt;= 2010), timevar = &quot;yearID&quot;, idvar  =  &quot;teamID&quot;,  direction  =  &quot;wide&quot;)
-head(wide) </code></pre>
-<pre><code>##     teamID total_homeruns.2010 total_runs.2010 mean_homeruns.2010
-## 22     ARI                 180             713           3.750000
-## 71     ATL                 139             738           3.232558
-## 132    BAL                 133             613           2.955556
-## 281    BOS                 211             818           3.981132
-## 600    CHA                 177             752           4.425000
-## 741    CHN                 149             685           3.386364
-##     mean_runs.2010 total_homeruns.2011 total_runs.2011 mean_homeruns.2011
-## 22        14.85417                 172             731           3.372549
-## 71        17.16279                 173             641           3.844444
-## 132       13.62222                 191             708           3.820000
-## 281       15.43396                 203             875           4.142857
-## 600       18.80000                 154             654           3.666667
-## 741       15.56818                 148             654           3.523810
-##     mean_runs.2011 total_homeruns.2012 total_runs.2012 mean_homeruns.2012
-## 22        14.33333                 165             734           3.367347
-## 71        14.24444                 149             700           3.634146
-## 132       14.16000                 214             712           4.115385
-## 281       17.85714                 165             734           2.946429
-## 600       15.57143                 211             748           4.688889
-## 741       15.57143                 137             613           2.584906
-##     mean_runs.2012 total_homeruns.2013 total_runs.2013 mean_homeruns.2013
-## 22        14.97959                 130             685           2.954545
-## 71        17.07317                 181             688           4.113636
-## 132       13.69231                 212             745           4.076923
-## 281       13.10714                 178             853           3.708333
-## 600       16.62222                 148             598           3.148936
-## 741       11.56604                 172             602           3.071429
-##     mean_runs.2013 total_homeruns.2014 total_runs.2014 mean_homeruns.2014
-## 22        15.56818                 118             615           2.269231
-## 71        15.63636                 123             573           3.153846
-## 132       14.32692                 211             705           4.795455
-## 281       17.77083                 123             634           2.236364
-## 600       12.72340                 155             660           3.522727
-## 741       10.75000                 157             614           3.270833
-##     mean_runs.2014
-## 22        11.82692
-## 71        14.69231
-## 132       16.02273
-## 281       11.52727
-## 600       15.00000
-## 741       12.79167</code></pre>
-<p>If you want to change it back to a long format, you need a list of the wide format names that are to be converted to single variables in the long format.</p>
-<pre class="r"><code>names(wide)</code></pre>
-<pre><code>##  [1] &quot;teamID&quot;              &quot;total_homeruns.2010&quot; &quot;total_runs.2010&quot;    
-##  [4] &quot;mean_homeruns.2010&quot;  &quot;mean_runs.2010&quot;      &quot;total_homeruns.2011&quot;
-##  [7] &quot;total_runs.2011&quot;     &quot;mean_homeruns.2011&quot;  &quot;mean_runs.2011&quot;     
-## [10] &quot;total_homeruns.2012&quot; &quot;total_runs.2012&quot;     &quot;mean_homeruns.2012&quot; 
-## [13] &quot;mean_runs.2012&quot;      &quot;total_homeruns.2013&quot; &quot;total_runs.2013&quot;    
-## [16] &quot;mean_homeruns.2013&quot;  &quot;mean_runs.2013&quot;      &quot;total_homeruns.2014&quot;
-## [19] &quot;total_runs.2014&quot;     &quot;mean_homeruns.2014&quot;  &quot;mean_runs.2014&quot;</code></pre>
-<p>If you look at the list of names from the wide data frame, you can see that the variables to be converted are 2-21. You can assign that list of variables to a name to make it easier to call them in the reshape function.</p>
-<pre class="r"><code>vars  &lt;-  names(wide)[2:21]</code></pre>
-<p>To call the reshape function to convert this from a wide to a long format, you need to pass a few different arguments:<br />
-* the data frame<br />
-* varying - the names of the variables to be broken apart (now assigned to vars to make this easier)<br />
-* the idvar - same as before<br />
-* direction – this time from wide to long</p>
-<p>A note - reshape will try to guess how to break up the varying variables. By default, it expects to see the format of varname.time, like mean runs.2010. If this is NOT how your variables are named, you can specify what the separator is by using the ”sep =” argument. For example, if you used an underscore between your variable name and time element, you’d pass the argument sep = ” ”</p>
-<pre class="r"><code>long  &lt;-  reshape(wide,  varying  =  vars,  idvar  =  &quot;teamID&quot;,  direction  =  &quot;long&quot;)
-head(long)</code></pre>
-<pre><code>##          teamID time total_homeruns total_runs mean_homeruns mean_runs
-## ARI.2010    ARI 2010            180        713      3.750000  14.85417
-## ATL.2010    ATL 2010            139        738      3.232558  17.16279
-## BAL.2010    BAL 2010            133        613      2.955556  13.62222
-## BOS.2010    BOS 2010            211        818      3.981132  15.43396
-## CHA.2010    CHA 2010            177        752      4.425000  18.80000
-## CHN.2010    CHN 2010            149        685      3.386364  15.56818</code></pre>
-</div>
-</div>
-<div id="continuing-your-r-journey" class="section level3">
-<h3>5 Continuing Your R Journey</h3>
-<p>This class has provided a very basic introduction to the syntax and basic functionality of R, but there is a lot more that R can do. Fortunately, there are lots of ways to get help as you try to troubleshoot or figure out how to do new things in R.</p>
-<div id="google-is-your-friend" class="section level4">
-<h4>5.1 Google is your friend</h4>
-<p>Getting a cryptic error message? Trying to figure out what function does what you are trying to do? Chances are very good that someone else has had your exact question and has gotten it answered! Google! And be as specific as possible! And look in your search results for the following sites:<br />
-* Stack Overflow (<a href="http://stackoverflow.com" class="uri">http://stackoverflow.com</a>): site where people can ask questions and the community will answer. Sometimes people can get a bit mean if you ask questions that have been answered elsewhere, so definitely do some searching before you post a question.<br />
-* CRAN - The Comprehensive R Archive Network (<a href="http://cran.r-project.org" class="uri">http://cran.r-project.org</a>): basically the official site of R. Lots of documentation is hosted there, so you can usually find thorough descriptions of functions and packages<br />
-* R Bloggers (<a href="http://www.r-bloggers.com" class="uri">http://www.r-bloggers.com</a>): user-created tutorials on a variety of topics<br />
-* UCLA’s Institute for Digital Research and Education (<a href="http://www.ats.ucla.edu/stat/r/" class="uri">http://www.ats.ucla.edu/stat/r/</a>): a fairly comprehensive set of tutorials with lots of examples</p>
-</div>
-<div id="recommended-books" class="section level4">
-<h4>5.2 Recommended Books</h4>
-<p>These resources provide nice overview information to help you learn more about accomplishing general data tasks in R.<br />
-* Lander, Jared P. R for Everyone<br />
-* Matloff, Norman. The Art of R Programming: A Tour of Statistical Software Design<br />
-* Teetor, Paul. The R Cookbook: Proven Recipes for Data Analysis, Statistics, and Graphics<br />
-* Wickham, Hadley. Advanced R</p>
-</div>
+<div id="on-track-for-section-4.3-reshaping-data-from-long-to-wide" class="section level4">
+<h4>On track for section 4.3 Reshaping Data from Long to Wide</h4>
+<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
+batting &lt;- read.csv(file = &quot;batting.csv&quot;)
+batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
+names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;
+library(plyr)
+batting2014  &lt;-  rename(batting2014,  c(AB=&quot;at_bats&quot;, H=&quot;hits&quot;, X2B=&quot;doubles&quot;))
+full_data  &lt;-  merge(batting2014, master, by = &quot;playerID&quot;)
+full_data$birthState  &lt;-  revalue(full_data$birthState,  c(TX=&quot;Texas&quot;, CA=&quot;California&quot;))
+full_data$rel_height[full_data$height  &lt;  70] &lt;- &quot;short&quot;
+full_data$rel_height[full_data$height &gt;= 70 &amp; full_data$height &lt;= 75] &lt;- &quot;average&quot;
+full_data$rel_height[full_data$height &gt; 75] &lt;- &quot;tall&quot;
+full_data$rel_height &lt;- as.factor(full_data$rel_height)
+full_data$rel_height &lt;- factor(full_data$rel_height,levels= c(&quot;short&quot;,&quot;average&quot;,&quot;tall&quot;))
+full_data$wt_kg &lt;- full_data$weight * 0.453592
+team_summary &lt;- ddply(batting, c(&quot;teamID&quot;, &quot;yearID&quot;), summarize, total_homeruns  =  sum(HR,  na.rm  =  TRUE),  total_runs  =  sum(R, na.rm  =  TRUE),  mean_homeruns  =  mean(HR,  na.rm  =  TRUE), mean_runs = mean(R, na.rm = TRUE))</code></pre>
 </div>
 
 
