@@ -124,11 +124,12 @@ $(document).ready(function () {
 
 
 <p>This document will provide the commands needed to get you back on track for the beginning of each section of the Introduction to R class. If at any point, you find that you are not getting the correct outputs, cut and paste the code chunks labeled for the section you are in and you can then proceed with the class (and then sort out what went wrong later!).</p>
-<div id="package-install" class="section level3">
-<h3>Package Install</h3>
+<div id="package-install" class="section level4">
+<h4>Package Install</h4>
 <p>Run this if you are getting an error when you run ddply, rename, or revalue functions:</p>
-<p>install.packages(“plyr”)</p>
-<pre class="r"><code>library(plyr)</code></pre>
+<pre class="r"><code># install.packages(&quot;plyr&quot;)
+library(plyr)</code></pre>
+</div>
 <div id="on-track-for-section-2-processing-and-working-with-data" class="section level4">
 <h4>On track for section 2 Processing and Working with Data</h4>
 <p>If you do not have a variable called master with 18589 observations and 24 variables in the global environment, run the following code:</p>
@@ -140,24 +141,16 @@ $(document).ready(function () {
 <pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
 batting &lt;- read.csv(file = &quot;batting.csv&quot;)</code></pre>
 </div>
-<div id="on-track-for-section-2.2-2.3-renaming-variables---installing-and-working-with-packages" class="section level4">
-<h4>On track for section 2.2-2.3 (Renaming Variables - Installing and Working with Packages)</h4>
+<div id="on-track-for-section-2.2-renaming-variables" class="section level4">
+<h4>On track for section 2.2 Renaming Variables</h4>
 <p>If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, run the following code:</p>
 <pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
 batting &lt;- read.csv(file = &quot;batting.csv&quot;)
 batting2014 &lt;- subset(batting,  yearID &gt;= 2014)</code></pre>
 </div>
-<div id="on-track-for-section-2.3-installing-and-working-with-packages" class="section level4">
-<h4>On track for section 2.3 Installing and Working with Packages</h4>
+<div id="on-track-for-section-2.3-2.4-installing-and-working-with-packages-through-merging-datasets" class="section level4">
+<h4>On track for section 2.3-2.4 Installing and Working with Packages THROUGH Merging Datasets</h4>
 <p>If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:</p>
-<pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
-batting &lt;- read.csv(file = &quot;batting.csv&quot;)
-batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
-names(batting2014)[names(batting2014) == &quot;R&quot;]  &lt;- &quot;runs&quot;</code></pre>
-</div>
-<div id="on-track-for-section-2.4-merging-datasets" class="section level4">
-<h4>On track for section 2.4 Merging Datasets</h4>
-<p>If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014:</p>
 <pre class="r"><code>master &lt;- read.csv(file = &quot;master.csv&quot;)
 batting &lt;- read.csv(file = &quot;batting.csv&quot;)
 batting2014 &lt;- subset(batting,  yearID &gt;= 2014)
@@ -198,7 +191,6 @@ full_data$rel_height[full_data$height &gt; 75] &lt;- &quot;tall&quot;
 full_data$rel_height &lt;- as.factor(full_data$rel_height)
 full_data$rel_height &lt;- factor(full_data$rel_height,levels= c(&quot;short&quot;,&quot;average&quot;,&quot;tall&quot;))
 team_summary &lt;- ddply(batting, c(&quot;teamID&quot;, &quot;yearID&quot;), summarize, total_homeruns  =  sum(HR,  na.rm  =  TRUE),  total_runs  =  sum(R, na.rm  =  TRUE),  mean_homeruns  =  mean(HR,  na.rm  =  TRUE), mean_runs = mean(R, na.rm = TRUE))</code></pre>
-</div>
 </div>
 
 

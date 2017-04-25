@@ -6,21 +6,20 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, error=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 This document will provide the commands needed to get you back on track for the beginning of each section of the Introduction to R class. If at any point, you find that you are not getting the correct outputs, cut and paste the code chunks labeled for the section you are in and you can then proceed with the class (and then sort out what went wrong later!).
 
-### Package Install
+#### Package Install
 Run this if you are getting an error when you run ddply, rename, or revalue functions:
-  
-install.packages("plyr")
 ```{r}
+# install.packages("plyr")
 library(plyr)
 ```
 
 #### On track for section 2 Processing and Working with Data
-If you do not have a variable called master with 18589 observations and 24 variables in the global environment, run the following code:  
+If you do not have a variable called master with 18589 observations and 24 variables in the global environment, run the following code: 
 ```{r}
 master <- read.csv(file = "master.csv")
 ```
@@ -32,7 +31,7 @@ master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 ```
 
-#### On track for section 2.2-2.3	(Renaming Variables - Installing and Working with Packages)
+#### On track for section 2.2	Renaming Variables 
 If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, run the following code:  
 ```{r}
 master <- read.csv(file = "master.csv")
@@ -40,23 +39,13 @@ batting <- read.csv(file = "batting.csv")
 batting2014 <- subset(batting,  yearID >= 2014)
 ```
 
-#### On track for section 2.3	Installing and Working with Packages
+#### On track for section 2.3-2.4	Installing and Working with Packages THROUGH Merging Datasets
 If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:  
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 batting2014 <- subset(batting,  yearID >= 2014)
 names(batting2014)[names(batting2014) == "R"]  <- "runs"
-```
-
-#### On track for section 2.4	Merging Datasets
-If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014:  
-```{r}
-master <- read.csv(file = "master.csv")
-batting <- read.csv(file = "batting.csv")
-batting2014 <- subset(batting,  yearID >= 2014)
-names(batting2014)[names(batting2014) == "R"]  <- "runs"
-
 ```
 
 #### On track for section 2.5-2.6	Recoding Data, Creating New Variables, and Changing Data Types THROUGH Dealing with NAs
@@ -68,7 +57,7 @@ batting2014 <- subset(batting,  yearID >= 2014)
 names(batting2014)[names(batting2014) == "R"]  <- "runs"
 full_data  <-  merge(batting2014, master, by = "playerID")
 ```
-
+  
 #### On track for sections 2.7-4.2 Working with tables THROUGH Transforming and Summarizing Data
 ```{r}
 master <- read.csv(file = "master.csv")
@@ -82,7 +71,7 @@ full_data$rel_height[full_data$height > 75] <- "tall"
 full_data$rel_height <- as.factor(full_data$rel_height)
 full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
 ```
-
+  
 #### On track for section 4.3	Reshaping Data from Long to Wide
 ```{r}
 master <- read.csv(file = "master.csv")
@@ -97,4 +86,4 @@ full_data$rel_height <- as.factor(full_data$rel_height)
 full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
 team_summary <- ddply(batting, c("teamID", "yearID"), summarize, total_homeruns  =  sum(HR,  na.rm  =  TRUE),  total_runs  =  sum(R, na.rm  =  TRUE),  mean_homeruns  =  mean(HR,  na.rm  =  TRUE), mean_runs = mean(R, na.rm = TRUE))
 ```
-
+  
