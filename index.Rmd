@@ -12,10 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 This document will provide the commands needed to get you back on track for the beginning of each section of the Introduction to R class. If at any point, you find that you are not getting the correct outputs, cut and paste the code chunks labeled for the section you are in and you can then proceed with the class (and then sort out what went wrong later!).
 
 #### Package Install
-Run this if you are getting an error when you run ddply, rename, or revalue functions:
+Run this if R is not recognizing the dplyr functions you are trying to run
 ```{r}
-# install.packages("plyr")
-library(plyr)
+# install.packages("dplyr")
+library(dplyr)
 ```
 
 #### On track for section 2 Processing and Working with Data
@@ -24,66 +24,63 @@ If you do not have a variable called master with 18589 observations and 24 varia
 master <- read.csv(file = "master.csv")
 ```
 
-#### On track for section 2.1 Subsetting
+#### On track for section 2.1 (Indexing) to 2.3 (Subsetting Observations)
 If you do not have the variables master (18589 observations, 24 variables) and batting (99846 observations, 22 variables) in the global environment, run the following code: 
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 ```
 
-#### On track for section 2.2	Renaming Variables 
+#### On track for section 2.4 (Selecting and Renaming Variables) 
 If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, run the following code:  
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
-batting2014 <- subset(batting,  yearID >= 2014)
+batting2014  <-  filter(batting,  yearID  ==  2014)
 ```
 
-#### On track for section 2.3-2.4	Installing and Working with Packages THROUGH Merging Datasets
+#### On track for section 2.5 (Mergine Data Frames)  
 If you do not have the variables master (18589 observations, 24 variables), batting (99846 observations, 22 variables), and batting2014 (1435 observations, 22 variables) in the global environment, and if runs is not one of the variables in batting2014, run the following code:  
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 batting2014 <- subset(batting,  yearID >= 2014)
-names(batting2014)[names(batting2014) == "R"]  <- "runs"
+batting2014 <- rename(batting2014, ab_bats = AB, hits = H, doubles = X2B, runs = R, games = G)
 ```
 
-#### On track for section 2.5-2.6	Recoding Data, Creating New Variables, and Changing Data Types THROUGH Dealing with NAs
+#### On track for section 2.6 (Recoding Data, Creating New Variables, and Changing Data Types)
 If you do not have the full_data variable with 1435 observations and 45 variables, run the following code:
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 batting2014 <- subset(batting,  yearID >= 2014)
-names(batting2014)[names(batting2014) == "R"]  <- "runs"
-full_data  <-  merge(batting2014, master, by = "playerID")
+batting2014 <- rename(batting2014, ab_bats = AB, hits = H, doubles = X2B, runs = R, games = G)
+full_data  <-  inner_join(batting2014,  master,  by  =  "playerID")
 ```
   
-#### On track for sections 2.7-4.2 Working with tables THROUGH Transforming and Summarizing Data
+#### On track for sections 2.7 (Dealing with NAs) to 2.8 (Working with Tables)
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 batting2014 <- subset(batting,  yearID >= 2014)
-names(batting2014)[names(batting2014) == "R"]  <- "runs"
-full_data  <-  merge(batting2014, master, by = "playerID")
-full_data$rel_height[full_data$height  <  70] <- "short"
-full_data$rel_height[full_data$height >= 70 & full_data$height <= 75] <- "average"
-full_data$rel_height[full_data$height > 75] <- "tall"
+batting2014 <- rename(batting2014, ab_bats = AB, hits = H, doubles = X2B, runs = R, games = G)
+full_data  <-  inner_join(batting2014,  master,  by  =  "playerID")
+full_data <- mutate(full_data, rel_height = ifelse(height < 70,"short", ifelse(height >= 75,"tall","average")))
 full_data$rel_height <- as.factor(full_data$rel_height)
 full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
 ```
-  
-#### On track for section 4.3	Reshaping Data from Long to Wide
+    
+#### On track for section 3.1 (Sorting Data) to 4 (Plotting)
 ```{r}
 master <- read.csv(file = "master.csv")
 batting <- read.csv(file = "batting.csv")
 batting2014 <- subset(batting,  yearID >= 2014)
-names(batting2014)[names(batting2014) == "R"]  <- "runs"
-full_data  <-  merge(batting2014, master, by = "playerID")
-full_data$rel_height[full_data$height  <  70] <- "short"
-full_data$rel_height[full_data$height >= 70 & full_data$height <= 75] <- "average"
-full_data$rel_height[full_data$height > 75] <- "tall"
+batting2014 <- rename(batting2014, ab_bats = AB, hits = H, doubles = X2B, runs = R, games = G)
+full_data  <-  inner_join(batting2014,  master,  by  =  "playerID")
+full_data <- mutate(full_data, rel_height = ifelse(height < 70,"short", ifelse(height >= 75,"tall","average")))
 full_data$rel_height <- as.factor(full_data$rel_height)
 full_data$rel_height <- factor(full_data$rel_height,levels= c("short","average","tall"))
-team_summary <- ddply(batting, c("teamID", "yearID"), summarize, total_homeruns  =  sum(HR,  na.rm  =  TRUE),  total_runs  =  sum(R, na.rm  =  TRUE),  mean_homeruns  =  mean(HR,  na.rm  =  TRUE), mean_runs = mean(R, na.rm = TRUE))
+full_data$throws  <-  factor(full_data$throws)
+handedtbl  <-  table(full_data$throws,  full_data$rel_height)
 ```
   
